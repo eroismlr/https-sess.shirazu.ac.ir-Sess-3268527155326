@@ -1,0 +1,790 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0044)https://sess.shirazu.ac.ir/Sess/261747975000 -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>اتوماسیون آموزشی دانشجویی-امور دانشجو</title>
+    <meta content="Microsoft Visual Studio .NET 7.1" name="GENERATOR">
+    <meta content="C#" name="CODE_LANGUAGE">
+    <meta content="JavaScript" name="vs_defaultClientScript">
+    <meta content="http://schemas.microsoft.com/intellisense/ie5" name="vs_targetSchema">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="./sesssec_files/styles.css" type="text/css" rel="stylesheet">
+    <link href="./sesssec_files/stylesheet3.css" type="text/css" rel="stylesheet">
+    <link rel="shortcut icon" href="https://sess.shirazu.ac.ir/sess/LocalImage/favicon.ico">
+    <script src="./sesssec_files/Gnr.js.download" type="text/javascript"></script>
+
+    <script type="text/javascript">
+        var DlgIdent = '';
+        var ModalCase = '';
+        window.returnBack = function (s) {
+            if (s)
+                DlgPerform(s);
+            DlgIdent = ModalCase = '';
+        }
+        function DlgPerform(s) {
+            switch (ModalCase) {
+                case 'ResidencyEdit': Perform('SaveRegion;Data=' + s); break;
+                // case 'BankUnitSelect': Perform('InternetPay;Data=' + s); break; //95_12_11 commented
+            }
+        }
+        //function PayInternet(a, b) {  //95_12_11 commented
+        //    var Args = new Array();
+        //    Args[0] = a;
+        //    Args[1] = b;
+        //    DlgIdent = '';
+        //    ModalCase = 'BankUnitSelect';
+        //    var s = showModalDialog("/sess/HtmlPage/BankUnitSelect.htm", Args, "status:0;help:0;dialogWidth:350px;dialogHeight:170px");
+        //    if (s)
+        //        DlgPerform(s);
+        //}
+
+        var tdClick = false;
+
+        function PerformStd(way) {
+            document.getElementById("Channel").value = 'Act=CallStd;Way=' + way + ';';
+            document.forms[0].submit();
+        }
+        function View(Srl) {
+            Perform('NEWS;SRL=' + Srl);
+        }
+        function CourseClick(e) {
+            if (tdClick) {
+                tdClick = false;
+                return;
+            }
+            var Source = GetSrc(e);
+            var Ident = Source.getAttribute('Ident', false);
+            if (Ident == null)
+                return;
+            var Srl = SrcName(Ident, "SRL");
+            var Group = SrcName(Ident, "GROUP");
+            Perform('EDIT;SRL=' + Srl + ';GROUP=' + Group);
+        }
+        function VirSessionList(e) {
+            tdClick = true;
+            var Source = GetSrc(e);
+            var Ident = Source.getAttribute('Ident', false);
+            if (Ident == null)
+                return;
+            var Srl = SrcName(Ident, "SRL");
+            var Group = SrcName(Ident, "GROUP");
+            Perform('VirSessionClsList;SRL=' + Srl + ';GROUP=' + Group);
+        }
+
+        function ClickElection(e) {
+            var Source = GetSrcPar(e);
+            var Ident = Source.getAttribute('Ident', false);
+            if (Ident == null)
+                return;
+            Perform('Election;Ident=' + Ident);
+        }
+        function CreateGrd(Type, V) {
+            if (window.confirm('با اين کار فرآيند تقاضاي ' + V + ' براي شما راه اندازي مي شود.آيا مطمئن هستيد؟')) {
+                Perform("GrdStudent;Type=" + Type);
+            }
+        }
+        function ConfirmStd(Act) {
+            var con = document.getElementById('ExCrdConfirmation').value;
+            if (con.length > 0) {
+                if (window.confirm(con)) {
+                    Perform(Act);
+                }
+            }
+                else {
+                    Perform(Act);
+                }
+        }
+        function ClickEvl(e) {
+            var Source = GetSrcPar(e);
+            var Ident = Source.getAttribute('Ident', false);
+            if (Ident == null)
+                return;
+            Perform('EvlInstance;Ident=' + Ident);
+        }
+        function ClickElc(e) {
+            var Source = GetSrcPar(e);
+            var Ident = Source.getAttribute('Ident', false);
+            if (Ident == null)
+                return;
+            Perform('ElcInstance;Ident=' + Ident);
+        }
+        function ClickVirSession(e) {
+
+            var Source = GetSrcPar(e);
+            var Ident = Source.getAttribute('Ident', false);
+            var ClsIdent = Source.getAttribute('ClsIdent', false);
+            if (!ClsIdent || ClsIdent == null)
+                ClsIdent = Ident;
+            if (Ident == null)
+                return;
+            var Req = CreateRequest();
+            if (Req) {
+                Req.open('post', "/sess/Script/AjaxMember.aspx?Act=VirSessionLogin&Ident=" + Ident + "&ClsIdent=" + ClsIdent, false);
+                Req.send();
+                if (Req.responseText == "1")
+                    window.open('/sess/Service/VirSessionLoginRequest.aspx', '_self');
+                else
+                    alert(Req.responseText);
+            }
+        }
+        function Connect2EduExpert(e) {
+
+            var Req = CreateRequest();
+            if (Req) {
+                Req.open('post', "/sess/Script/AjaxMember.aspx?Act=VirSessionLoginEduExpert", false);
+                Req.send();
+                if (Req.responseText == "1")
+                    window.open('/sess/Service/VirSessionLoginRequest.aspx', '_blank');
+                else
+                    alert(Req.responseText);
+            }
+        }
+        function Connect2CalExpert(e) {
+
+            var Req = CreateRequest();
+            if (Req) {
+                Req.open('post', "/sess/Script/AjaxMember.aspx?Act=VirSessionLoginCalExpert", false);
+                Req.send();
+                if (Req.responseText == "1")
+                    window.open('/sess/Service/VirSessionLoginRequest.aspx', '_blank');
+                else
+                    alert(Req.responseText);
+            }
+        }
+        function getNews(i) {
+            //document.getElementById('ednewslist' + i).innerHTML = " ";
+            var Req = CreateRequest();
+            if (Req) {
+                Req.open('post', "/sess/script/AjaxMember.aspx?Act=getNews&category=" + i, false);
+                Req.send();
+                if (Req.responseText != "") {
+
+                    document.getElementById('ednewslist' + i).innerHTML = Req.responseText;
+                }
+            }
+        }
+    </script>
+</head>
+<body dir="ltr">
+    <form method="post" action="https://sess.shirazu.ac.ir/Sess/261747975000" id="Form1">
+<div class="aspNetHidden">
+<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="/wEPDwUKMjA2NTcwODYwNw9kFgICAQ9kFjICAQ9kFgoCBQ8WAh4JaW5uZXJodG1sBWbZgdix2LfZiNizINin2LPZhdi52YrZhCDZiNmG2K/ZiiDZhNmK2LHZiiAgKtmB2YrYstmK2qkg2KLZhdin2LHZiiDZiCDYs9in2YXYp9mG2Ycg2YfYp9mKINm+2YrahtmK2K/ZhypkAgcPFgIfAAUn2KfYqti12KfZhCDYp9iyINi32LHZitmCOtin2YrZhtiq2LHZhtiqZAIJDxYEHgV0aXRsZQUN2b7bjNin2YUg2YfYpx4EaHJlZgUdL3Nlc3MvRkFjY291bnQvRk1zZ0luYm94LmFzcHgWAgIBD2QWAmYPFgIfAAUG27bbs9u5ZAILDxYCHgdWaXNpYmxlaGQCDQ8WAh8ABRk8Yj7bsdu027DbtC/bsNuxL9ux27c8L2I+ZAIDDxBkEBUJAi0tDdiv2YjZhSAtIDE0MDMN2KfZiNmEIC0gMTQwMxXYqtin2KjYs9iq2KfZhiAtIDE0MDMN2K/ZiNmFIC0gMTQwMg3Yp9mI2YQgLSAxNDAyFdiq2KfYqNiz2KrYp9mGIC0gMTQwMg3Yr9mI2YUgLSAxNDAxDdin2YjZhCAtIDE0MDEVCQEwBTE0MDMyBTE0MDMxBTE0MDMwBTE0MDIyBTE0MDIxBTE0MDIwBTE0MDEyBTE0MDExFCsDCWdnZ2dnZ2dnZ2RkAgcPFgIfAAUIKNu227PbuSlkAg0PZBYCAgEPFgIfAAUT2b7Yp9uM2KfZhiDZhtin2YXZh2QCDw8WAh8DaGQCEw8WAh8DaGQCFQ8WAh8DaGQCFw8WAh8DaGQCGQ8WAh8DaGQCGw8WBB4IZGlzYWJsZWQFCGRpc2FibGVkHwNoZAIjDxYCHwNoZAItDxYCHwNoZAIxDxYCHwNoZAIzDxYCHwAF5wMqKtiv2KfZhti02KzZiNuMINqv2LHYp9mF24wg2KfYsiDZhdmH2YTYqiDYq9io2Kog2YbYp9mFINi02YXYpyDar9iw2LTYqtmHINin2LPYqiDZh9ixINqG2Ycg2LPYsdmK2Lkg2KrYsSDYrNmH2Kog2KrYudmK2YrZhiDYqtqp2YTZitmBINio2Ycg2qnYp9ix2LTZhtin2LMg2KjYrti0INiu2YjYryDZhdix2KfYrNi52Ycg2YbZhdin2YrZitivKio8YnIvPtiv2KfZhti02KzZiNuMINqv2LHYp9mF24wg2LTZhdinINu527DYsdmI2LIg2b7YsyDYp9iyINiv2YHYp9i5INmB2LHYtdiqINiv2KfYsduM2K8g2YXYsdin2K3ZhCDZgdin2LHYuiDYp9mE2KrYrdi124zZhNuMINiu2YjYryDYsdinINio2Ycg2KfZhtis2KfZhSDYqNix2LPYp9mG24zYry4g2b7YsyDYp9iyINin24zZhiDZhdmH2YTYqtiMINi02KfZhdmEINm+2LHYr9in2K7YqiDYrNix24zZhdmHINuMINiv24zYsdqp2LHYryDYqtit2LXbjNmE2KfYqiDYqtqp2YXbjNmE24wg2K7ZiNin2YfbjNivINi02K8uZAI3DxYCHwNoZAI5DxYCHwNoZAI9DxYCHwAFkw08c3BhbiBzdHlsZT0iY29sb3I6Izk5MDA2NiI+27HbtNuw27Ev27HbsC/bsduzLdqp2KfZhdix2YjYp9mGOjwvc3Bhbj48YnIgLz7YqNinINin2LPYqtmG2KfYryDYqNmHINmF2LXZiNio2Ycg2qnZhdmK2KrZhyDZhdmG2KrYrtioINi02YjYsdin2Yog2KrYrdi12YrZhNin2Kog2KraqdmF2YrZhNmKINiv2KfZhti02q/Yp9mHINmF2YjYsdiuINux27TbsNuxL9ux27Av27HbsiDYqNinINiv2LHYrtmI2KfYs9iqINit2LDZgSDZhtmK2YUg2LPYp9mEINin2YjZhCDbtNuw27Eg2YXZiNin2YHZgtiqINi02K8uINi02KfZitin2YYg2LDaqdixINin2LPYqiDYp9iu2LAg2YXYrNiv2K8g2K/YsdmI2LMg2K3YsNmBINi02K/ZhyDZhdi02YXZiNmEINm+2LHYr9in2K7YqiDYtNmH2LHZitmHINiv2LHZiNizINit2LDZgSDYtNiv2Ycg2YXZiiDar9ix2K/Yry48YnIgLz48YnIgLz48c3BhbiBzdHlsZT0iY29sb3I6Izk5MDA2NiI+27HbtNuw27Iv27Dbsi/bsdu2Ldi52LPaqdix2Yo6PC9zcGFuPjxiciAvPtm+2YrYsdmIINmF2qnYp9iq2KjZhyDYtNmF2KfYsdmHINux27TbsNuy27Ev27Hbsi/bsdu027Mg2YXZiNix2K4g27HbtNuw27Iv27Dbsi/bsduwINmIINiv2LPYqtmI2LEg2LHYptmK2LMg2YXYrdiq2LHZhSDYp9iv2KfYsdmHINiu2YjYp9io2q/Yp9mHINmH2Kcg2KfYrNin2LHZhyDZiiDZhtmK2YXYs9in2YQg2KfZiNmEINux27TbsNuyINio2Ycg2K/ZhNmK2YQg2LnYr9mFINin2LPYqtmB2KfYr9mHINmKINin2YrYtNin2YYg2K/YsSDZhtmK2YXYs9in2YQg2KfZiNmEINux27TbsNuxICjYudmE2YrYsdi62YUg2KfZitmG2qnZhyDZhtin2YXYtNin2YYg2KvYqNiqINio2YjYr9mHINin2LPYqikg2K/YsSDYs9in2YrYqiDYsdmB2KfZhyDYq9io2Kog2YbYtNmI2K8g2Ygg2KfYrNin2LHZhyDYr9ix2YrYp9mB2Kog2YbYtNmI2K8uLyDYudiz2qnYsdmKPGJyIC8+PGJyIC8+PHNwYW4gc3R5bGU9ImNvbG9yOiM5OTAwNjYiPtux27TbsNuyL9ux27Ev27Hbty3aqdin2YXYsdmI2KfZhjo8L3NwYW4+PGJyIC8+2KjYpyDYp9iz2KrZhtin2K8g2KjZhyDZhdi12YjYqNmHINqp2YXZitiq2Ycg2YXZhtiq2K7YqCDYtNmI2LHYp9mKINiq2K3YtdmK2YTYp9iqINiq2qnZhdmK2YTZiiDYr9in2YbYtNqv2KfZhyDZhdmI2LHYriDbtNuw27Iv27HbsS/bsdu2INio2Kcg2K/Ysdiu2YjYp9iz2Kog2K3YsNmBINiv2LHYsyDZgdmK2LLZitqpINiz2KfZhdin2YbZhyDZh9in2Yog2b7ZitqG2YrYr9mHINiv2LEg2YbZitmFINiz2KfZhCDYp9mI2YQg27TbsNuyINmF2YjYp9mB2YLYqiDYtNivLjxiciAvPjxiciAvPjxzcGFuIHN0eWxlPSJjb2xvcjojOTkwMDY2Ij7bsdu027Dbsy/bsNu3L9uw27MtOjwvc3Bhbj48YnIgLz7Yr9in2YbYtNis2YjZiiDar9ix2KfZhdmKIDrYtNmF2Kcg2K3Yr9in2qnYq9ixINiq2Kcg2KrYp9ix2YrYrtux27TbsNuzL9uw27cv27Hbs9io2LHYp9mKINmF2LHYp9is2LnZhyDYqNmHINqp2KfYsdi02YbYp9izINio2K7YtCDYqNix2KfZiiDZvtmKINqv2YrYsdmKINir2KjYqiDZhtin2YUg2K7ZiNivINmB2LHYtdiqINiv2KfYsdmK2K8u2b7YsyDYp9iyINiq2KfYsdmK2K4g2YXYsNqp2YjYsSDZhdis2YjYsiDZhNi62Ygg2Ygg2KrYqNi52KfYqiDZhtin2LTZiiDYp9iyINii2YYg2KjZhyDYudmH2K/ZhyDYr9in2YbYtNis2Ygg2YXZiiDYqNin2LTYry48YnIgLz48YnIgLz5kAkEPFgIfAAUb2YXYrNmF2YjYuSDZiNin2K3Yr9mH2Kc6INuwZAJDDxYCHwNoZAJFDxYCHwNoZAJJDxYCHwNoZAJNDxYCHwAFKdmB2LHYt9mI2LMg2KfYs9mF2LnZitmEINmI2YbYr9mKINmE2YrYsdmKZAJPDxYCHwAFT9mB2YrYstmK2YMg2q/Ysdin2YrYtCDZgdmK2LLZitqpINii2YXYp9ix2Yog2Ygg2LPYp9mF2KfZhtmHINmH2KfZiiDZvtmK2obZitiv2YdkAlEPFgIfAAUK27HbtNuw27HbsWQCUw8WAh4Dc3JjBS0vc2Vzcy9GU3R1ZGVudC9TdHVkZW50UGljLmFzcHg/U3JsPTIwMzY3Nzc1NjFkZJYAPoJoE4wQ4l3NkFnTWvDHhNUe+2d2rigmbojHnAPa">
+</div>
+
+<div class="aspNetHidden">
+
+	<input type="hidden" name="__VIEWSTATEGENERATOR" id="__VIEWSTATEGENERATOR" value="4142FC50">
+	<input type="hidden" name="__EVENTVALIDATION" id="__EVENTVALIDATION" value="/wEdAAc88djcJtkryir++KrP40Wo6/R1CdSTRgr1D4vCUegGUZFB0O/9E5xLpcfo0i3k0CtLV/xo45Y8bNJVZpjso0eA4VAbgI+cvZYuEOU9Zcm9HAUIKd3wefrG/SFpoZE6BAEpm45SIRv2mbbjOdjHgISTxCSwWjYA2f25h4eaPzkMNCo+Ljcwmh2Mrp7vdHuKlok=">
+</div>
+        <table id="maintbl" dir="rtl" cellspacing="0" cellpadding="0" align="center" width="100%">
+            <tbody><tr>
+                <td>
+                    
+
+<script type="text/javascript">
+    function BannerAct(pAct)
+    {
+        document.getElementById("Banner1_zzChanel").value = pAct;
+        if (pAct == "Exit") {
+            var Ch = document.getElementById("Channel");
+            if (Ch)
+                Ch.value = "";
+        }
+        document.forms[0].submit();
+    }
+    //function ShortKeyBan(e) {
+    //    var a = KeyLatin(GetKeyCode(e));
+    //    alert(a);
+    //    document.getElementById("Banner1_zzChanel").value = a  ;
+    //        document.forms[0].submit();
+        
+    //}
+</script>
+
+    <table class="ptext" dir="rtl" cellspacing="0" cellpadding="0" width="100%" align="center">
+        <tbody><tr>
+            <td style="height: 109px; width: 100%; height: auto">
+                <table style="width: 100%;" cellpadding="0" cellspacing="0">
+                    <tbody><tr style="background-image: url(&#39;./sessfirst_files/bg.jpg&#39;); background-repeat: repeat">
+                        <td align="right">
+                            <img src="./sesssec_files/Right.jpg" id="Banner1_IMG1" usemap="home.aspx">
+                        </td>
+                        <td align="left">
+                            <img src="./sesssec_files/Left.jpg" id="Banner1_IMG2" usemap="home.aspx">
+                        </td>
+                    </tr>
+                </tbody></table>
+            </td>
+        </tr>
+        <tr style="background-image: url(&#39;./sessfirst_files/BanLine.jpg&#39;); background-repeat: repeat-x">
+            <td valign="top">
+                <table class="ptext" style="width: 100%">
+                    <tbody><tr>
+                        <td id="Banner1_zzUserType" align="right" width="30%">فرطوس اسمعيل وندي ليري  *فيزيک آماري و سامانه هاي پيچيده*</td>
+
+                        
+                        <td align="right" width="30%">
+                            <div id="Banner1_zzHostAddr" style="padding: 2px 2px 2px 2px; display: inline; margin: 1px; color: blue; background-color: transparent; text-align: center">اتصال از طريق:اينترنت</div>
+                        </td>
+                       
+                        <td width="50%">
+    <a class="Power" title="خروج" href="/sess/Script/Logout.aspx" style="display:inline-block; width:24px; height:24px; background-image:url('./sessfirst_files/g/Power.png'); background-repeat:no-repeat;"></a>
+    <a class="Home" title="صفحه اصلي" href="/sess/Script/Home.aspx" style="display:inline-block; width:24px; height:24px; background-image:url('./sessfirst_files/g/Home.png'); background-repeat:no-repeat;"></a>
+    <a class="Back" id="edRet" title="بازگشت" onclick="try{BannerAct('Exit');}catch(e){}" style="display:inline-block; width:24px; height:24px; background-image:url('./sessfirst_files/g/Back.png'); background-repeat:no-repeat;"></a>
+    <a class="Tick" id="edOk" title="تاييد" onclick="try{Save();}catch(e){}" style="display:inline-block; width:24px; height:24px; background-image:url('./sessfirst_files/g/Tick.png'); background-repeat:no-repeat;"></a>
+    <a class="Help" id="edHelp" title="راهنما" target="_blank" href="/sess/Script/Help.aspx" style="display:inline-block; width:24px; height:24px; background-image:url('./sessfirst_files/g/Help.png'); background-repeat:no-repeat;"></a>
+    
+    <a href="/sess/FAccount/FMsgInbox.aspx" id="Banner1_edMsg" class="Msg" title="پیام ها" style="display:inline-block; position:relative; width:24px; height:24px; background-image:url('./sessfirst_files/g/Msg.png'); background-repeat:no-repeat;">
+    <div id="Banner1_MsgIcon" class="MsgIcon" style="position:relative; display:inline-block;">
+        
+    </div></a>
+    
+    <div id="Banner1_xToDayx" style="color: navy;float:left;width:80px;border-left:1px solid #dfe6e6;height:20px"><b>۱۴۰۴/۰۱/۱۷</b></div>
+</td>
+                         
+                    </tr>
+                    <tr>
+                        <td>
+                            <input name="Banner1:zzChanel" type="hidden" id="Banner1_zzChanel"></td>
+                    </tr>
+                </tbody></table>
+            </td>
+        </tr>
+       
+
+    </tbody></table>
+
+
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <table width="100%">
+                        <tbody><tr>
+                            <td id="edSRightMenu" valign="top" style="width: 20%" rowspan="3">
+                                <table width="100%">
+                                    <tbody><tr>
+                                        <td align="center">
+                                            <table width="100%" cellpadding="0" cellspacing="0">
+
+
+                                                <tbody><tr>
+                                                    <td style="padding: 5px;">
+                                                        <div class="baghdi scroll" style="float: right; font: bold 14px Tahoma; direction: rtl; width: 100%;">
+                                                            <nav class="nav header" role="navigation">
+                                                                <div class="OrangeBox2" style="margin-bottom: 5px; margin-top:0px; margin-left:0px; margin-right:0px; padding: 5px;">
+                                                            <div style="display: inline-block; font: bold 12px tahoma; color: black">نيمسال فعال:</div>
+                                                            <select name="edSemester" id="edSemester" class="DropIn" onchange="Perform(&#39;SEMESTER&#39;)" style="display: inline-block">
+	<option value="0">--</option>
+	<option selected="selected" value="14032">دوم - 1403</option>
+	<option value="14031">اول - 1403</option>
+	<option value="14030">تابستان - 1403</option>
+	<option value="14022">دوم - 1402</option>
+	<option value="14021">اول - 1402</option>
+	<option value="14020">تابستان - 1402</option>
+	<option value="14012">دوم - 1401</option>
+	<option value="14011">اول - 1401</option>
+</select>
+                                                        </div>
+                                                             <ul class="nav__list">
+                                                                 <li>
+                                                                     <input id="group-1" type="checkbox" hidden="">
+                                                                     <label for="group-1"><span><i class="fas fa-user " style="padding-left:10px; "></i></span>اطلاعات کاربری </label>
+                                                                       <ul class="group-list">
+                                                                           <li><a class="link" onclick="PerformStd(&#39;Cgp&#39;)">تغيير کلمه رمز</a></li>
+                                                                           <li><a onclick="Perform(&#39;SignUp&#39;)" class="link">اطلاعات پايه</a></li>
+                                                                           <li><a class="link" onclick="PerformStd(&#39;Ovs&#39;)">اطلاعات افزوده</a></li>
+                                                                           <li><a class="link" onclick="PerformStd(&#39;Sdc&#39;)">ارسال مدارک</a></li>
+                                                                           <li><a class="link" onclick="Perform(&#39;BasicInfo&#39;)">مشخصات دانشجويي</a></li>
+                                                                           <li><a onclick="PerformStd(&#39;SDGF&#39;)" class="link">پرونده دیجیتال</a></li>
+                                                                           <li><a class="link" onclick="PerformStd(&#39;Ssd&#39;)">اطلاعات كنكور</a></li>
+                                                                           <li><a onclick="PerformStd(&#39;Reg&#39;)" class="link">آیین نامه ها</a></li>
+                                                                          
+                                                                           <li><a onclick="PerformStd(&#39;Amt&#39;)" class="link">تابلو احكام جديد</a></li>
+                                                                           <li id="edInt"><a class="link " onclick="PerformStd(&#39;KeyG&#39;)">دریافت رمز اولیه </a></li>
+                                                                           <li><a onclick="PerformStd(&#39;Vlg&#39;)" class="link">تاریخچه ورود</a></li>
+                                                                           <li><a onclick="PerformStd(&#39;SDEF&#39;)" class="link">انتخاب کاربر پیش فرض SSO</a></li>
+                                                                           
+                                                                      </ul>
+                                                                </li>
+                                                                 <li>
+                                                                      <input id="group-2" type="checkbox" hidden="">
+                                                                       <label for="group-2"><span><i class="fas fa-envelope " style="padding-left:10px; "></i></span>پيامها</label>
+                                                                     <ul class="group-list">
+                                                                         <li><a class="link" onclick="PerformStd(&#39;Msg&#39;)">پيام ها<div id="edMsgCount" style="display: inline">(۶۳۹)</div>
+                                                                             </a></li>
+                                                                         <li><a class="link" onclick="Perform(&#39;Msg2Tch&#39;)">پيام به استادمشاور<div id="Div1" style="display: inline"></div>
+                                                                             </a></li>
+                                                                         <li><a class="link" onclick="Perform(&#39;Msg2Exp&#39;)">پيام به کارشناس بخش<div id="Div2" style="display: inline"></div>
+                                                                             </a></li>
+                                                                     </ul>
+                                                                 </li>
+                                                                 <li>
+                                                                     <input id="group-3" type="checkbox" hidden="">
+                                                                       <label for="group-3"><span><i class="fas fa-graduation-cap" style="padding-left:10px; "></i></span>آموزشی</label>
+                                                                         <ul class="group-list">
+                                                                             <li><a class="link" onclick="Perform(&#39;Major&#39;)">برنامه درسي </a></li>
+                                                                             <li><a class="link" onclick="Perform(&#39;Compensate&#39;)">دروس جبراني</a></li>
+                                                                             <li><a class="link" onclick="Perform(&#39;Som&#39;)">ليست دروس گرفته </a></li>
+                                                                             <li><a class="link" onclick="Perform(&#39;StdProgress&#39;)">نمودار پیشرفت تحصیلی</a></li>
+                                                                             <li><a class="link" onclick="PerformStd(&#39;Sum&#39;)">خلاصه كارنامه</a></li>
+                                                                             <li><a class="link" onclick="PerformStd(&#39;Prc&#39;)">چك ليست ثبت نام مقدماتي</a></li>
+                                                                             <li><a class="link" onclick="PerformStd(&#39;Rcf&#39;)">چك ليست انتخاب واحد</a></li>
+                                                                             <li><a class="link" onclick="Perform(&#39;RegLog&#39;)">عملیات های ثبت نام</a></li>
+                                                                             <li><a class="link" onclick="PerformStd(&#39;Sgr&#39;)">فارغ التحصيلي </a></li>
+                                                                             <li><a class="link" onclick="PerformStd(&#39;Pcl&#39;)">برنامه کلاسي نيمسال </a></li>
+                                                                             <li><a class="link" onclick="PerformStd(&#39;Ssr&#39;)">تقويم آموزشي</a></li>
+                                                                             <li><a class="link" onclick="PerformStd(&#39;See&#39;)">سوابق تحصیلی انتقالی</a></li>
+                                                                             <li id="edThesis">
+                                                                                <a id="edThesType" class="link" onclick="PerformStd(&#39;Thl&#39;)">پایان نامه</a></li>
+                                                                             
+                                                                             
+                                                                             <li id="edExempt">
+                                                                                <a class="link" onclick="PerformStd(&#39;Exl&#39;)">آزمونهای معافی </a>
+                                                                             </li>
+                                                                             
+                                                                             <li><a class="link" onclick="Perform(&#39;ExamTA&#39;)">امور دستیار استاد</a></li>
+                                                                             
+                                                                             
+                                                                              
+                                                                             <li></li>
+                                                                               <li><a class="link" onclick="PerformStd(&#39;StdCons&#39;)">جلسات مشاوره</a></li>
+                                                                         </ul>
+                                                                 </li>
+                                                                 <li>
+                                                                       <input id="group-10" type="checkbox" hidden="">
+                                                                       <label for="group-10"><span><i class="fas fa-check " style="padding-left:10px; "></i></span>ارزیابی</label>
+                                                                       <ul class="group-list">
+                                                                         <li><a onclick="PerformStd(&#39;ActiveEvl&#39;)" class="link">تکمیل فرم های ارزیابی</a></li>
+                                                                             
+                                                                           </ul>
+                                                                     </li>
+                                                                 <li>
+                                                                     <input id="group-4" type="checkbox" hidden="">
+                                                                       <label for="group-4"><span><i class="fas fa-user-tie " style="padding-left:10px; "></i></span>امور دانشجویی</label>
+                                                                       <ul class="group-list">
+                                                                            <li><a class="link" href="sec3.html">خوابگاه</a></li>
+                                                                            <li><a class="link" onclick="Perform(&#39;DormAgent&#39;)">فرم هم اتاقي</a></li>
+                                                                            <li><a class="link" onclick="Perform(&#39;DormitoryZero&#39;)">خوابگاه ورودیهای جدید</a></li>
+                                                                            <li id="Esl"><a class="link" onclick="PerformStd(&#39;Erl&#39;)">درخواست وام</a></li>
+                                                                            <li id="edElcList"><a class="link " onclick="PerformStd(&#39;Evt&#39;)">انتخابات دانشجویی</a></li>
+                                                                            <li id="edSfxChip"><a class="link" onclick="Perform(&#39;SfxChip&#39;)">خرید ژتون و رفاهی</a></li>
+                                                                           
+                                                                            <li><a class="link" onclick="PerformStd(&#39;GRDSTD&#39;)">ثبت نام مراسم فارغ التحصیلی</a></li>
+                                                                           <li><a class="link" onclick="PerformStd(&#39;LabsView&#39;)">شبکه آزمایشگاهی دانشگاه </a></li>
+                                                                           <li><a class="link" onclick="PerformStd(&#39;NewRoomerReqs&#39;)">درخواست های اسکان متفرقه</a></li> 
+                                                                           <li><a class="link" onclick="Perform(&#39;LabServReqs&#39;)">درخواست های نوبت دهی آزمایشگاه</a></li>
+                                                                       </ul>
+                                                                 </li>
+                                                                 <li>
+                                                                     <input id="group-5" type="checkbox" hidden="">
+                                                                       <label for="group-5"><span><i class="fas fa-calculator " style="padding-left:10px; "></i></span>امور مالی</label>
+                                                                        <ul class="group-list">
+                                                                            <li><a class="link" onclick="Perform(&#39;IntPy&#39;)">پرداخت شهريه اینترنتی</a></li>
+                                                                            <li><a class="link" onclick="PerformStd(&#39;Scr&#39;)">ليست پرداختها</a></li>
+                                                                            <li><a class="link" onclick="PerformStd(&#39;Psp&#39;)">پرداختهاي اينترنتي</a></li>
+                                                                            <li><a class="link" onclick="PerformStd(&#39;Psc&#39;)">چك هاي تقسيطي</a></li>
+                                                                            <li><a class="link" onclick="PerformStd(&#39;Sfc&#39;)">چك ليست مالي نيمسال </a></li>
+                                                                            <li><a class="link" onclick="Perform(&#39;AccTable&#39;)">جدول شهريه</a></li>
+                                                                            <li><a class="link" onclick="Perform(&#39;Pst&#39;)">شهریه</a></li>
+                                                                            <li><a class="link" onclick="PerformStd(&#39;Frt&#39;)">شهريه رايگان</a></li>
+                                                                            <li><a class="link" onclick="PerformStd(&#39;StdDebPay&#39;)">بدهی های موضوعی</a></li>
+                                                                            <li><a class="link" onclick="PerformStd(&#39;HSC&#39;)">حق التدريس دستيار آموزشي</a></li>   
+                                                                              
+                                                                       </ul>
+                                                                 </li>
+                                                                 <li>
+                                                                     <input id="group-6" type="checkbox" hidden="">
+                                                                       <label for="group-6"><span><i class="fas fa-comments " style="padding-left:10px; "></i></span>فرايندها</label>
+                                                                          <ul id="edListMatters" class="group-list">
+                                                                             <li><a class="link" onclick="Perform(&#39;Spr&#39;)">فرايند ثبت نام</a></li>
+                                                                             <li><a class="link" onclick="PerformStd(&#39;Rss&#39;)">منابع و برنامه ها</a></li>
+                                                                             <li><a class="link" onclick="PerformStd(&#39;Ssi&#39;)">فرآیندهای دانشجویی</a></li>
+                                                                             <li><a class="link" onclick="PerformStd(&#39;Ats&#39;)">نوبت های مراجعه</a></li>   
+                                                                              <li><a class="link" onclick="Perform(&#39;RegStdProc&#39;)">فرايند ثبت نام (جدید)</a></li>
+                                                                         </ul>
+                                                                 </li>
+                                                                  <li>
+                                                                     <input id="group-7" type="checkbox" hidden="">
+                                                                       <label for="group-7" onclick="PerformStd(&#39;CLE&#39;)"><span><i class="fas fa-book " style="padding-left:10px; "></i></span>امور فرهنگی</label>
+                                                                 </li>
+                                                                 <li>
+                                                                     <input id="group-8" type="checkbox" hidden="">
+                                                                       <label for="group-8"><span><i class="fas fa-home" style="padding-left:10px; "></i></span>امور واحدهای مجازی</label>
+                                                                     <ul class="group-list">
+                                                                         <li id="Li4"><a class="link " onclick="PerformStd(&#39;DgtL&#39;)">کتابخانه دیجیتال</a></li>
+                                                                         <li id="Li1"><a class="link" onclick="Connect2EduExpert();">گفتگو با کارشناس بخش</a></li>
+                                                                         <li id="Li2"><a class="link " onclick="Connect2CalExpert();">گفتگو با کارشناس حسابداری</a></li>
+                                                                        
+                                                                     </ul>
+                                                                 </li>
+
+                                                         </ul>
+                                                  </nav>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+
+                                                
+                                            </tbody></table>
+                                        </td>
+                                    </tr>
+                                </tbody></table>
+                            </td>
+                            <td id="edMiddle" valign="top">
+                                <table width="100%" class="ptext">
+                                    <tbody><tr id="pnlNonConsultor">
+	<td align="right" class="AlarmPage">
+                                            
+
+                                        </td>
+</tr>
+
+                                    
+                                    <tr>
+                                        <td align="center" class="AlarmPage">
+                                            <div id="edAlert" style="font-weight: bold; color: red; text-align: justify;">**دانشجوی گرامی از مهلت ثبت نام شما گذشته است هر چه سريع تر جهت تعيين تکليف به کارشناس بخش خود مراجعه نماييد**<br>دانشجوی گرامی شما ۹۰روز پس از دفاع فرصت دارید مراحل فارغ التحصیلی خود را به انجام برسانید. پس از این مهلت، شامل پرداخت جریمه ی دیرکرد تحصیلات تکمیلی خواهید شد.</div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="height: 10px" align="left">
+                                            <label id="lblGrdFine" style="font-weight: bold; color: red; text-align: justify;"></label>
+                                             
+                                            
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td id="edRemTitle" class="TdBold EditorPage" style="font-weight: bold;" align="center">یادداشت های کاربران</td>
+
+                                    </tr>
+                                    <tr>
+                                        <td class="HelpPage">
+                                            <div id="edRemList"><span style="color:#990066">۱۴۰۱/۱۰/۱۳-کامروان:</span><br>با استناد به مصوبه کميته منتخب شوراي تحصيلات تکميلي دانشگاه مورخ ۱۴۰۱/۱۰/۱۲ با درخواست حذف نيم سال اول ۴۰۱ موافقت شد. شايان ذکر است اخذ مجدد دروس حذف شده مشمول پرداخت شهريه دروس حذف شده مي گردد.<br><br><span style="color:#990066">۱۴۰۲/۰۲/۱۶-عسکري:</span><br>پيرو مکاتبه شماره ۱۴۰۲۱/۱۲/۱۴۳ مورخ ۱۴۰۲/۰۲/۱۰ و دستور رئيس محترم اداره خوابگاه ها اجاره ي نيمسال اول ۱۴۰۲ به دليل عدم استفاده ي ايشان در نيمسال اول ۱۴۰۱ (عليرغم اينکه نامشان ثبت بوده است) در سايت رفاه ثبت نشود و اجاره دريافت نشود./ عسکري<br><br><span style="color:#990066">۱۴۰۲/۱۱/۱۷-کامروان:</span><br>با استناد به مصوبه کميته منتخب شوراي تحصيلات تکميلي دانشگاه مورخ ۴۰۲/۱۱/۱۶ با درخواست حذف درس فيزيک سامانه هاي پيچيده در نيم سال اول ۴۰۲ موافقت شد.<br><br><span style="color:#990066">۱۴۰۳/۰۷/۰۳-:</span><br>دانشجوي گرامي :شما حداکثر تا تاريخ۱۴۰۳/۰۷/۱۳براي مراجعه به کارشناس بخش براي پي گيري ثبت نام خود فرصت داريد.پس از تاريخ مذکور مجوز لغو و تبعات ناشي از آن به عهده دانشجو مي باشد.<br><br></div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <table class="mGrid" onmouseover="Over(event)" style="border-left-color: #ffff99; border-bottom-color: #ffff99; border-top-color: #ffff99; border-right-color: #ffff99" onclick="CourseClick(event)" onmouseout="Out(event)" width="100%" align="center">
+                                                <tbody>
+                                                    <tr>
+                                                        <td class="titrtag" align="center" colspan="8" style="border-radius: 0px">چک لیست نيمسال تحصيلي فعال
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>رديف
+                                                        </th>
+                                                        <th>شماره درس
+                                                        </th>
+                                                        <th width="200">عنوان درس
+                                                        </th>
+                                                        <th>واحد
+                                                        </th>
+                                                        <th>گروه
+                                                        </th>
+                                                        <th width="17%">وضعيت
+                                                        </th>
+                                                        <th width="17%">وضعیت کلاس
+                                                        </th>
+                                                        <th width="17%">لیست کلاس مجازی
+                                                        </th>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="8">
+                                                            <div id="edList">
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="8">
+                                                            <div id="edCount">مجموع واحدها: ۰</div>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <table id="edListEvl" width="100%" class="mGrid" cellspacing="1" cellpadding="1" onmouseover="OverRow(event)" onmouseout="OutRow(event)" onclick="ClickEvl(event)">
+	<tbody><tr>
+		<td class="titrtag" colspan="5" align="center" style="font-size: 12px; font-weight: bold; border-radius: 0px">فرم های ارزیابی فعال
+                                                    </td>
+	</tr>
+	<tr>
+		<th>ردیف
+                                                    </th>
+		<th>نیمسال
+                                                    </th>
+		<th>نوع</th>
+		<th>تاریخ شروع
+                                                    </th>
+		<th>تاریخ پایان
+                                                    </th>
+	</tr>
+</tbody></table>
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <hr>
+                                        </td>
+                                    </tr>
+                                    <tr id="edcNews">
+	<td>
+                                            <table id="edNewsTable" class="ptext" width="100%" align="center" border="0">
+		<tbody><tr style="font-weight: bold; font-size: 12px; color: #990066; font-family: Tahoma; background-color: #ced6e4">
+			<td align="right" colspan="3">ليست اطلاعيه ها
+                                                    </td>
+		</tr>
+		<tr>
+			<td>
+                                                        <div class="tabs">
+                                                            <div class="tab">
+                                                                <input type="radio" id="tab-1" name="tab-group-1" checked="checked" onclick="getNews(1)">
+                                                                <label for="tab-1">آموزشی</label>
+                                                                <div id="ednewslist1" class="content" style="overflow-y: scroll;"><table style="border-collapse:separate ;width:100%;" border-spacing="11px"><tbody><tr class="NewsHover" onclick="View(12499)"><td style="border-color:rgb(206, 214, 228); border-style:solid;border-width:1px; border-radius:7px;margin-bottom:7px; padding:4px"><div style="margin-top:4px;margin-bottom:4px"><span width="3%"><img src="./sesssec_files/list.gif"></span><span class="ptext3" style="margin-right:10px"> حوزه مديريت دانشگاه شيراز</span><span class="ptext3" float="left">۱۴۰۴/۰۱/۱۶</span></div><div><span class="NewsLinkTitr" style="margin-right:16px">فراخوان رهايي مادري از بند براي دومين بار در دانشگاه شيراز </span></div><div style="margin-top:4px;margin-bottom:6px"><span class="NewsLink" style="margin-right:16px">انجمن‌علمي مديريت دانشگاه شيراز با همکاري ساير انجمن هاي کشور و ستا...</span></div></td></tr><tr class="NewsHover" onclick="View(12498)"><td style="border-color:rgb(206, 214, 228); border-style:solid;border-width:1px; border-radius:7px;margin-bottom:7px; padding:4px"><div style="margin-top:4px;margin-bottom:4px"><span width="3%"><img src="./sesssec_files/list.gif"></span><span class="ptext3" style="margin-right:10px"> حوزه مديريت دانشگاه شيراز</span><span class="ptext3" float="left">۱۴۰۴/۰۱/۱۶</span></div><div><span class="NewsLinkTitr" style="margin-right:16px">دوره جامع آموزش سيستماتيک پايگاه‌هاي اطلاعاتي و داده‌هاي آماري علوم اجتماعي </span></div><div style="margin-top:4px;margin-bottom:6px"><span class="NewsLink" style="margin-right:16px">انجمن علمي علوم سياسي دانشگاه شيراز با همکاري پايگاه خبري-تحليلي صد...</span></div></td></tr><tr class="NewsHover" onclick="View(12497)"><td style="border-color:rgb(206, 214, 228); border-style:solid;border-width:1px; border-radius:7px;margin-bottom:7px; padding:4px"><div style="margin-top:4px;margin-bottom:4px"><span width="3%"><img src="./sesssec_files/list.gif"></span><span class="ptext3" style="margin-right:10px"> حوزه مديريت دانشگاه شيراز</span><span class="ptext3" float="left">۱۴۰۴/۰۱/۱۶</span></div><div><span class="NewsLinkTitr" style="margin-right:16px">مهراد (گروه آموزشي علوم انساني اسلامي)</span></div><div style="margin-top:4px;margin-bottom:6px"><span class="NewsLink" style="margin-right:16px">بجاي دنبال کردن آينده با مهراد آن را مي‌سازيمحسابداري مقدماتي ماليا...</span></div></td></tr><tr class="NewsHover" onclick="View(12496)"><td style="border-color:rgb(206, 214, 228); border-style:solid;border-width:1px; border-radius:7px;margin-bottom:7px; padding:4px"><div style="margin-top:4px;margin-bottom:4px"><span width="3%"><img src="./sesssec_files/list.gif"></span><span class="ptext3" style="margin-right:10px"> حوزه مديريت دانشگاه شيراز</span><span class="ptext3" float="left">۱۴۰۴/۰۱/۱۶</span></div><div><span class="NewsLinkTitr" style="margin-right:16px">گروه آموزشي فرهنگ و تمدن</span></div><div style="margin-top:4px;margin-bottom:6px"><span class="NewsLink" style="margin-right:16px">بجاي دنبال کردن آينده با مهراد آن را مي‌سازيمروخواني و روان‌خواني ق...</span></div></td></tr><tr class="NewsHover" onclick="View(12495)"><td style="border-color:rgb(206, 214, 228); border-style:solid;border-width:1px; border-radius:7px;margin-bottom:7px; padding:4px"><div style="margin-top:4px;margin-bottom:4px"><span width="3%"><img src="./sesssec_files/list.gif"></span><span class="ptext3" style="margin-right:10px"> حوزه مديريت دانشگاه شيراز</span><span class="ptext3" float="left">۱۴۰۴/۰۱/۱۶</span></div><div><span class="NewsLinkTitr" style="margin-right:16px">اگر پايان‌نامه يا رساله داري، اين کارگاه مخصوص شماست!</span></div><div style="margin-top:4px;margin-bottom:6px"><span class="NewsLink" style="margin-right:16px">*اگر پايان‌نامه يا رساله داري، اين کارگاه مخصوص شماست!* با شرکت توي...</span></div></td></tr><tr class="NewsHover" onclick="View(12494)"><td style="border-color:rgb(206, 214, 228); border-style:solid;border-width:1px; border-radius:7px;margin-bottom:7px; padding:4px"><div style="margin-top:4px;margin-bottom:4px"><span width="3%"><img src="./sesssec_files/list.gif"></span><span class="ptext3" style="margin-right:10px"> حوزه مديريت دانشگاه شيراز</span><span class="ptext3" float="left">۱۴۰۴/۰۱/۱۶</span></div><div><span class="NewsLinkTitr" style="margin-right:16px">آماده شو براي آينده‌اي بهتر! با دوره‌هاي فني مهندسي مهراد، قدم به دنياي تکنولوژي و نوآوري بگذار</span></div><div style="margin-top:4px;margin-bottom:6px"><span class="NewsLink" style="margin-right:16px">"آماده شو براي آينده‌اي بهتر! با دوره‌هاي فني مهندسي مهراد، قدم به ...</span></div></td></tr><tr class="NewsHover" onclick="View(12493)"><td style="border-color:rgb(206, 214, 228); border-style:solid;border-width:1px; border-radius:7px;margin-bottom:7px; padding:4px"><div style="margin-top:4px;margin-bottom:4px"><span width="3%"><img src="./sesssec_files/list.gif"></span><span class="ptext3" style="margin-right:10px"> حوزه مديريت دانشگاه شيراز</span><span class="ptext3" float="left">۱۴۰۴/۰۱/۱۶</span></div><div><span class="NewsLinkTitr" style="margin-right:16px">مسابقه کتابخواني در رشته ترجمه و تفسير قرآن کريم</span></div><div style="margin-top:4px;margin-bottom:6px"><span class="NewsLink" style="margin-right:16px">اطلاعيه بخش معارفي سي و نهمين جشنواره سراسري قرآن و عترت دانشگاه ها...</span></div></td></tr><tr class="NewsHover" onclick="View(12492)"><td style="border-color:rgb(206, 214, 228); border-style:solid;border-width:1px; border-radius:7px;margin-bottom:7px; padding:4px"><div style="margin-top:4px;margin-bottom:4px"><span width="3%"><img src="./sesssec_files/list.gif"></span><span class="ptext3" style="margin-right:10px"> حوزه مديريت دانشگاه شيراز</span><span class="ptext3" float="left">۱۴۰۴/۰۱/۱۶</span></div><div><span class="NewsLinkTitr" style="margin-right:16px"> گروه آموزشي فرهنگ و تمدن</span></div><div style="margin-top:4px;margin-bottom:6px"><span class="NewsLink" style="margin-right:16px">آغاز ثبت نام مرکز آموزش‌هاي فرهنگي مهراد با بيش از ۵۰ دوره آموزشي م...</span></div></td></tr><tr class="NewsHover" onclick="View(12491)"><td style="border-color:rgb(206, 214, 228); border-style:solid;border-width:1px; border-radius:7px;margin-bottom:7px; padding:4px"><div style="margin-top:4px;margin-bottom:4px"><span width="3%"><img src="./sesssec_files/list.gif"></span><span class="ptext3" style="margin-right:10px"> حوزه مديريت دانشگاه شيراز</span><span class="ptext3" float="left">۱۴۰۴/۰۱/۱۶</span></div><div><span class="NewsLinkTitr" style="margin-right:16px">دعوت به همکاري در کانون کارآفريني دانشگاه شيراز</span></div><div style="margin-top:4px;margin-bottom:6px"><span class="NewsLink" style="margin-right:16px">دعوت به همکاري در کانون کارآفريني دانشگاه شيرازبه نام خدادانشجويان ...</span></div></td></tr><tr class="NewsHover" onclick="View(12490)"><td style="border-color:rgb(206, 214, 228); border-style:solid;border-width:1px; border-radius:7px;margin-bottom:7px; padding:4px"><div style="margin-top:4px;margin-bottom:4px"><span width="3%"><img src="./sesssec_files/list.gif"></span><span class="ptext3" style="margin-right:10px"> حوزه مديريت دانشگاه شيراز</span><span class="ptext3" float="left">۱۴۰۴/۰۱/۱۶</span></div><div><span class="NewsLinkTitr" style="margin-right:16px"> گروه آموزشي علوم انساني</span></div><div style="margin-top:4px;margin-bottom:6px"><span class="NewsLink" style="margin-right:16px">بجاي دنبال کردن آينده با مهراد آن را مي‌سازيم با مدرک معاونت فرهنگي...</span></div></td></tr><tr class="NewsHover" onclick="View(12489)"><td style="border-color:rgb(206, 214, 228); border-style:solid;border-width:1px; border-radius:7px;margin-bottom:7px; padding:4px"><div style="margin-top:4px;margin-bottom:4px"><span width="3%"><img src="./sesssec_files/list.gif"></span><span class="ptext3" style="margin-right:10px"> حوزه مديريت دانشگاه شيراز</span><span class="ptext3" float="left">۱۴۰۴/۰۱/۱۶</span></div><div><span class="NewsLinkTitr" style="margin-right:16px">هفتمين دوره مسابقات بين المللي قرآن کريم دانشجويان مسلمان</span></div><div style="margin-top:4px;margin-bottom:6px"><span class="NewsLink" style="margin-right:16px">هفتمين دوره مسابقات بين المللي قرآن کريم دانشجويان مسلمانفراخوان در...</span></div></td></tr><tr class="NewsHover" onclick="View(12488)"><td style="border-color:rgb(206, 214, 228); border-style:solid;border-width:1px; border-radius:7px;margin-bottom:7px; padding:4px"><div style="margin-top:4px;margin-bottom:4px"><span width="3%"><img src="./sesssec_files/list.gif"></span><span class="ptext3" style="margin-right:10px"> حوزه مديريت دانشگاه شيراز</span><span class="ptext3" float="left">۱۴۰۴/۰۱/۱۶</span></div><div><span class="NewsLinkTitr" style="margin-right:16px">فراخوان جذب عضو گروه تواشيح اسوه دانشگاه شيراز </span></div><div style="margin-top:4px;margin-bottom:6px"><span class="NewsLink" style="margin-right:16px">فراخوان جذب عضو گروه تواشيح اسوه دانشگاه شيراز آيا به اجراي تواشيح ...</span></div></td></tr><tr class="NewsHover" onclick="View(12487)"><td style="border-color:rgb(206, 214, 228); border-style:solid;border-width:1px; border-radius:7px;margin-bottom:7px; padding:4px"><div style="margin-top:4px;margin-bottom:4px"><span width="3%"><img src="./sesssec_files/list.gif"></span><span class="ptext3" style="margin-right:10px"> حوزه مديريت دانشگاه شيراز</span><span class="ptext3" float="left">۱۴۰۴/۰۱/۱۶</span></div><div><span class="NewsLinkTitr" style="margin-right:16px">جذب عضو گروه همخواني و همسرايي مشکات</span></div><div style="margin-top:4px;margin-bottom:6px"><span class="NewsLink" style="margin-right:16px">جذب عضو گروه همخواني و همسرايي مشکات – دانشگاه شيراز آيا به موسيقي ...</span></div></td></tr><tr class="NewsHover" onclick="View(12486)"><td style="border-color:rgb(206, 214, 228); border-style:solid;border-width:1px; border-radius:7px;margin-bottom:7px; padding:4px"><div style="margin-top:4px;margin-bottom:4px"><span width="3%"><img src="./sesssec_files/list.gif"></span><span class="ptext3" style="margin-right:10px"> حوزه مديريت دانشگاه شيراز</span><span class="ptext3" float="left">۱۴۰۴/۰۱/۱۶</span></div><div><span class="NewsLinkTitr" style="margin-right:16px">مسابقه کتاب‌خواني: کتاب  کيمياگر </span></div><div style="margin-top:4px;margin-bottom:6px"><span class="NewsLink" style="margin-right:16px">معرفي کتاب فروردين ماه:کتاب کيمياگر اثر پائولو کوئيلو، چهارمين کتاب...</span></div></td></tr><tr class="NewsHover" onclick="View(12485)"><td style="border-color:rgb(206, 214, 228); border-style:solid;border-width:1px; border-radius:7px;margin-bottom:7px; padding:4px"><div style="margin-top:4px;margin-bottom:4px"><span width="3%"><img src="./sesssec_files/list.gif"></span><span class="ptext3" style="margin-right:10px"> حوزه مديريت دانشگاه شيراز</span><span class="ptext3" float="left">۱۴۰۳/۱۲/۲۷</span></div><div><span class="NewsLinkTitr" style="margin-right:16px">جشنواره شهيد آويني</span></div><div style="margin-top:4px;margin-bottom:6px"><span class="NewsLink" style="margin-right:16px">طلاعات جشنواره
+ شماره هشت
+ منابع آزمونهاي بخش فرهنگي
+
+ متقاضيان...</span></div></td></tr><tr class="NewsHover" onclick="View(12484)"><td style="border-color:rgb(206, 214, 228); border-style:solid;border-width:1px; border-radius:7px;margin-bottom:7px; padding:4px"><div style="margin-top:4px;margin-bottom:4px"><span width="3%"><img src="./sesssec_files/list.gif"></span><span class="ptext3" style="margin-right:10px"> حوزه مديريت دانشگاه شيراز</span><span class="ptext3" float="left">۱۴۰۳/۱۲/۲۶</span></div><div><span class="NewsLinkTitr" style="margin-right:16px">بررسي فعال بودن حساب بانک تجارت جهت واريز وام</span></div><div style="margin-top:4px;margin-bottom:6px"><span class="NewsLink" style="margin-right:16px">اطلاعيه
+بسيار مهم:
+
+قابل
+توجه متقاضيان وام نيمسال دوم ۱۴۰۴-۱۴۰۳...</span></div></td></tr><tr class="NewsHover" onclick="View(12479)"><td style="border-color:rgb(206, 214, 228); border-style:solid;border-width:1px; border-radius:7px;margin-bottom:7px; padding:4px"><div style="margin-top:4px;margin-bottom:4px"><span width="3%"><img src="./sesssec_files/list.gif"></span><span class="ptext3" style="margin-right:10px"> حوزه مديريت دانشگاه شيراز</span><span class="ptext3" float="left">۱۴۰۳/۱۲/۲۵</span></div><div><span class="NewsLinkTitr" style="margin-right:16px">جشنواره قرآني، فرهنگي و هنري شهيد آويني، قابل توجه دانشجويان شاهد و ايثارگر با هر درجه ايثارگر</span></div><div style="margin-top:4px;margin-bottom:6px"><span class="NewsLink" style="margin-right:16px">شرکت کنندگان محترمبعد از ثبت‌نام در جشنواره جهت اطمينان از انجام ثب...</span></div></td></tr><tr class="NewsHover" onclick="View(12477)"><td style="border-color:rgb(206, 214, 228); border-style:solid;border-width:1px; border-radius:7px;margin-bottom:7px; padding:4px"><div style="margin-top:4px;margin-bottom:4px"><span width="3%"><img src="./sesssec_files/list.gif"></span><span class="ptext3" style="margin-right:10px"> حوزه مديريت دانشگاه شيراز</span><span class="ptext3" float="left">۱۴۰۳/۱۲/۲۵</span></div><div><span class="NewsLinkTitr" style="margin-right:16px">آغاز ترم زمستان مرکز آموزش هاي فرهنگي، هنري ومهارتي مهراد</span></div><div style="margin-top:4px;margin-bottom:6px"><span class="NewsLink" style="margin-right:16px">آغاز ترم زمستانمرکز آموزش هاي فرهنگي، هنري ومهارتي مهراد با بيش از ...</span></div></td></tr><tr class="NewsHover" onclick="View(12475)"><td style="border-color:rgb(206, 214, 228); border-style:solid;border-width:1px; border-radius:7px;margin-bottom:7px; padding:4px"><div style="margin-top:4px;margin-bottom:4px"><span width="3%"><img src="./sesssec_files/list.gif"></span><span class="ptext3" style="margin-right:10px"> حوزه مديريت دانشگاه شيراز</span><span class="ptext3" float="left">۱۴۰۳/۱۲/۲۵</span></div><div><span class="NewsLinkTitr" style="margin-right:16px">هفتمين دوره مسابقات بين المللي قرآن کريم دانشجويان مسلمان</span></div><div style="margin-top:4px;margin-bottom:6px"><span class="NewsLink" style="margin-right:16px">هفتمين دوره مسابقات بين المللي قرآن کريم دانشجويان مسلمانفراخوان در...</span></div></td></tr><tr class="NewsHover" onclick="View(12472)"><td style="border-color:rgb(206, 214, 228); border-style:solid;border-width:1px; border-radius:7px;margin-bottom:7px; padding:4px"><div style="margin-top:4px;margin-bottom:4px"><span width="3%"><img src="./sesssec_files/list.gif"></span><span class="ptext3" style="margin-right:10px"> حوزه مديريت دانشگاه شيراز</span><span class="ptext3" float="left">۱۴۰۳/۱۲/۲۲</span></div><div><span class="NewsLinkTitr" style="margin-right:16px"> اولين جشنواره دانشجويي حکمت مطهر</span></div><div style="margin-top:4px;margin-bottom:6px"><span class="NewsLink" style="margin-right:16px">اولين جشنواره دانشجويي حکمت مطهربخش دانشجوي برتر حکمت مطهربخش توليد...</span></div></td></tr><tr class="NewsHover" onclick="View(12470)"><td style="border-color:rgb(206, 214, 228); border-style:solid;border-width:1px; border-radius:7px;margin-bottom:7px; padding:4px"><div style="margin-top:4px;margin-bottom:4px"><span width="3%"><img src="./sesssec_files/list.gif"></span><span class="ptext3" style="margin-right:10px"> حوزه مديريت دانشگاه شيراز</span><span class="ptext3" float="left">۱۴۰۳/۱۲/۲۱</span></div><div><span class="NewsLinkTitr" style="margin-right:16px"> بيست و دومين جشنواره ملي پايان نامه هاي ديني و قرآني دانشجويان سراسر کشور</span></div><div style="margin-top:4px;margin-bottom:6px"><span class="NewsLink" style="margin-right:16px">خبري نيک...! بيست و دومين جشنواره مليپايان نامه هاي ديني و قرآني دا...</span></div></td></tr><tr class="NewsHover" onclick="View(12450)"><td style="border-color:rgb(206, 214, 228); border-style:solid;border-width:1px; border-radius:7px;margin-bottom:7px; padding:4px"><div style="margin-top:4px;margin-bottom:4px"><span width="3%"><img src="./sesssec_files/list.gif"></span><span class="ptext3" style="margin-right:10px"> حوزه مديريت دانشگاه شيراز</span><span class="ptext3" float="left">۱۴۰۳/۱۲/۱۸</span></div><div><span class="NewsLinkTitr" style="margin-right:16px">مهلت پرداخت  تعيين تکليف و واريزي بدهي صندوق رفاه دانشجويان وزارت علوم</span></div><div style="margin-top:4px;margin-bottom:6px"><span class="NewsLink" style="margin-right:16px">پيام مهم صندوق رفاه دانشجويان وزارت علوم ????با سلام و احترام به آگ...</span></div></td></tr><tr class="NewsHover" onclick="View(12438)"><td style="border-color:rgb(206, 214, 228); border-style:solid;border-width:1px; border-radius:7px;margin-bottom:7px; padding:4px"><div style="margin-top:4px;margin-bottom:4px"><span width="3%"><img src="./sesssec_files/list.gif"></span><span class="ptext3" style="margin-right:10px"> حوزه مديريت دانشگاه شيراز</span><span class="ptext3" float="left">۱۴۰۳/۱۲/۱۵</span></div><div><span class="NewsLinkTitr" style="margin-right:16px">اطلاعيه وام تحصيلي و شهريه نيمسال دوم ۱۴۰۴-۱۴۰۳</span></div><div style="margin-top:4px;margin-bottom:6px"><span class="NewsLink" style="margin-right:16px">باسمه تعالينحوه تشکيل پرونده و مهلت ثبت نام وام هاي تحصيلي و شهريه ...</span></div></td></tr><tr class="NewsHover" onclick="View(12437)"><td style="border-color:rgb(206, 214, 228); border-style:solid;border-width:1px; border-radius:7px;margin-bottom:7px; padding:4px"><div style="margin-top:4px;margin-bottom:4px"><span width="3%"><img src="./sesssec_files/list.gif"></span><span class="ptext3" style="margin-right:10px"> حوزه مديريت دانشگاه شيراز</span><span class="ptext3" float="left">۱۴۰۳/۱۲/۱۴</span></div><div><span class="NewsLinkTitr" style="margin-right:16px">کانون ادبي دانشگاه شيراز تقديم ميکند</span></div><div style="margin-top:4px;margin-bottom:6px"><span class="NewsLink" style="margin-right:16px">کانون ادبي دانشگاه شيراز تقديم ميکنديکشنبه ها شعر و داستاندوشنبه ها...</span></div></td></tr><tr class="NewsHover" onclick="View(12417)"><td style="border-color:rgb(206, 214, 228); border-style:solid;border-width:1px; border-radius:7px;margin-bottom:7px; padding:4px"><div style="margin-top:4px;margin-bottom:4px"><span width="3%"><img src="./sesssec_files/list.gif"></span><span class="ptext3" style="margin-right:10px"> حوزه مديريت دانشگاه شيراز</span><span class="ptext3" float="left">۱۴۰۳/۱۲/۱۲</span></div><div><span class="NewsLinkTitr" style="margin-right:16px">جشنواره قرآني، فرهنگي و هنري شهيد آويني ويژه دانشجويان شاهد و ايثارگر با هر درجه از ايثارگري</span></div><div style="margin-top:4px;margin-bottom:6px"><span class="NewsLink" style="margin-right:16px">جشنواره قرآني، فرهنگي و هنري شهيد آويني, [۲۸.۰۲.۲۵ ۲۲:۳۰][ Photo ]?...</span></div></td></tr><tr class="NewsHover" onclick="View(12407)"><td style="border-color:rgb(206, 214, 228); border-style:solid;border-width:1px; border-radius:7px;margin-bottom:7px; padding:4px"><div style="margin-top:4px;margin-bottom:4px"><span width="3%"><img src="./sesssec_files/list.gif"></span><span class="ptext3" style="margin-right:10px"> حوزه مديريت دانشگاه شيراز</span><span class="ptext3" float="left">۱۴۰۳/۱۲/۱۱</span></div><div><span class="NewsLinkTitr" style="margin-right:16px">سي‌و‌نهمين جشنواره سراسري قرآن و عترت بخش ادبي با رشته هاي گوناگون</span></div><div style="margin-top:4px;margin-bottom:6px"><span class="NewsLink" style="margin-right:16px">سي‌و‌نهمين جشنواره سراسري قرآن و عترتبخش ادبي با رشته هاي گوناگون??...</span></div></td></tr><tr class="NewsHover" onclick="View(12227)"><td style="border-color:rgb(206, 214, 228); border-style:solid;border-width:1px; border-radius:7px;margin-bottom:7px; padding:4px"><div style="margin-top:4px;margin-bottom:4px"><span width="3%"><img src="./sesssec_files/list.gif"></span><span class="ptext3" style="margin-right:10px"> حوزه مديريت دانشگاه شيراز</span><span class="ptext3" float="left">۱۴۰۳/۱۱/۱۴</span></div><div><span class="NewsLinkTitr" style="margin-right:16px">جشنواره شهيد آويني ويژه دانشجويان شاهد و ايثارگر با هر درجه ايثارگري </span></div><div style="margin-top:4px;margin-bottom:6px"><span class="NewsLink" style="margin-right:16px">طلاعات جشنواره? شماره سه?? قرعه هاي قرائت بخش قرآني?? فيلم تلاوت ها...</span></div></td></tr><tr class="NewsHover" onclick="View(12174)"><td style="border-color:rgb(206, 214, 228); border-style:solid;border-width:1px; border-radius:7px;margin-bottom:7px; padding:4px"><div style="margin-top:4px;margin-bottom:4px"><span width="3%"><img src="./sesssec_files/list.gif"></span><span class="ptext3" style="margin-right:10px"> حوزه مديريت دانشگاه شيراز</span><span class="ptext3" float="left">۱۴۰۳/۱۰/۲۹</span></div><div><span class="NewsLinkTitr" style="margin-right:16px">سومين جشنواره قرآني، فرهنگي و هنري شهيد آويني </span></div><div style="margin-top:4px;margin-bottom:6px"><span class="NewsLink" style="margin-right:16px">آيين‌نامه جشنواره قرآني، فرهنگي و هنري شهيد آويني.pdf ضوابط اجرايي ...</span></div></td></tr><tr class="NewsHover" onclick="View(12100)"><td style="border-color:rgb(206, 214, 228); border-style:solid;border-width:1px; border-radius:7px;margin-bottom:7px; padding:4px"><div style="margin-top:4px;margin-bottom:4px"><span width="3%"><img src="./sesssec_files/list.gif"></span><span class="ptext3" style="margin-right:10px"> حوزه مديريت دانشگاه شيراز</span><span class="ptext3" float="left">۱۴۰۳/۱۰/۱۵</span></div><div><span class="NewsLinkTitr" style="margin-right:16px">آغاز فراخوان سومين دوره جشنواره قرآني، فرهنگي و هنري شهيد آويني ويژه دانشجويان شاهد و ايثارگر</span></div><div style="margin-top:4px;margin-bottom:6px"><span class="NewsLink" style="margin-right:16px">جشنواره قرآني، فرهنگي و هنري شهيد آويني?آغاز فراخوان سومين دوره جشن...</span></div></td></tr><tr class="NewsHover" onclick="View(11358)"><td style="border-color:rgb(206, 214, 228); border-style:solid;border-width:1px; border-radius:7px;margin-bottom:7px; padding:4px"><div style="margin-top:4px;margin-bottom:4px"><span width="3%"><img src="./sesssec_files/list.gif"></span><span class="ptext3" style="margin-right:10px"> حوزه مديريت دانشگاه شيراز</span><span class="ptext3" float="left">۱۴۰۳/۰۷/۰۳</span></div><div><span class="NewsLinkTitr" style="margin-right:16px">شرايط ضامن و سند تعهد نامه محضري جهت دريافت وام هاي صندوق رفاه دانشجويان</span></div><div style="margin-top:4px;margin-bottom:6px"><span class="NewsLink" style="margin-right:16px">باسمه تعالي
+
+به منظور دريافت فايل هاي راهنما براي تشکيل پرونده يا...</span></div></td></tr><tr class="NewsHover" onclick="View(11351)"><td style="border-color:rgb(206, 214, 228); border-style:solid;border-width:1px; border-radius:7px;margin-bottom:7px; padding:4px"><div style="margin-top:4px;margin-bottom:4px"><span width="3%"><img src="./sesssec_files/list.gif"></span><span class="ptext3" style="margin-right:10px"> حوزه مديريت دانشگاه شيراز</span><span class="ptext3" float="left">۱۴۰۳/۰۷/۰۱</span></div><div><span class="NewsLinkTitr" style="margin-right:16px">اطلاعيه بيمه حوادث دانشجويان</span></div><div style="margin-top:4px;margin-bottom:6px"><span class="NewsLink" style="margin-right:16px">باسمه تعالي
+
+اطلاعيه بيمه حوادث
+
+قابل توجه دانشجويان گرامي
+
+ب...</span></div></td></tr><tr class="NewsHover" onclick="View(11210)"><td style="border-color:rgb(206, 214, 228); border-style:solid;border-width:1px; border-radius:7px;margin-bottom:7px; padding:4px"><div style="margin-top:4px;margin-bottom:4px"><span width="3%"><img src="./sesssec_files/list.gif"></span><span class="ptext3" style="margin-right:10px"> حوزه مديريت دانشگاه شيراز</span><span class="ptext3" float="left">۱۴۰۳/۰۴/۰۸</span></div><div><span class="NewsLinkTitr" style="margin-right:16px">برنامه زمانبندي و تقويم آموزشي سال تحصيلي ۱۴۰۴-۱۴۰۳(ويرايش ۰۳-۰۶-۱۴۰۳) </span></div><div style="margin-top:4px;margin-bottom:6px"><span class="NewsLink" style="margin-right:16px">براي دريافت فايل Pdf تقويم آموزشي سال تحصيلي ۱۴۰۴-۱۴۰۳ دانشگاه شيرا...</span></div></td></tr><tr class="NewsHover" onclick="View(11069)"><td style="border-color:rgb(206, 214, 228); border-style:solid;border-width:1px; border-radius:7px;margin-bottom:7px; padding:4px"><div style="margin-top:4px;margin-bottom:4px"><span width="3%"><img src="./sesssec_files/list.gif"></span><span class="ptext3" style="margin-right:10px"> حوزه مديريت دانشگاه شيراز</span><span class="ptext3" float="left">۱۴۰۳/۰۳/۱۹</span></div><div><span class="NewsLinkTitr" style="margin-right:16px">تقويم خوابگاهي سال تحصيلي ۱۴۰۴-۱۴۰۳</span></div><div style="margin-top:4px;margin-bottom:6px"><span class="NewsLink" style="margin-right:16px">براي مشاهده فايل Pdf تقويم خوابگاهي سال تحصيلي ۱۴۰۴-۱۴۰۳ روي لينک ز...</span></div></td></tr></tbody></table></div>
+                                                            </div>
+                                                            <div class="tab">
+                                                                <input type="radio" id="tab-2" name="tab-group-1" onclick="getNews(2)">
+                                                                <label for="tab-2">دانشجویی</label>
+                                                                <div id="ednewslist2" class="content" style="overflow-y: scroll;">
+                                                                </div>
+                                                            </div>
+                                                            <div class="tab">
+                                                                <input type="radio" id="tab-3" name="tab-group-1" onclick="getNews(3)">
+                                                                <label for="tab-3">فرهنگی</label>
+                                                                <div id="ednewslist3" class="content" style="overflow-y: scroll;">
+                                                                </div>
+                                                            </div>
+                                                            <div class="tab">
+                                                                <input type="radio" id="tab-4" name="tab-group-1" onclick="getNews(4)">
+                                                                <label for="tab-4">پژوهشی</label>
+                                                                <div id="ednewslist4" class="content" style="overflow-y: scroll;">
+                                                                </div>
+                                                            </div>
+                                                            <div class="tab">
+                                                                <input type="radio" id="tab-0" name="tab-group-1" onclick="getNews(5)">
+                                                                <label for="tab-0">سایر</label>
+                                                                <div id="ednewslist5" class="content" style="overflow-y: scroll;">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </td>
+		</tr>
+	</tbody></table>
+	
+                                            &nbsp;
+                                        </td>
+</tr>
+
+                                </tbody></table>
+                            </td>
+                            <td id="edPhotoCalend" style="width: 24%" valign="top">
+                                <table width="100%" class="ptext">
+
+
+
+                                    <tbody><tr>
+                                        <td align="center" valign="top" style="padding-left: 20px; padding-top: 10px;">
+                                            <div style="border-radius: 10px; border: 5px solid #b7b8b6; background: #ffffff; box-shadow: 0 4px 6px rgba(0,0,0,.1); height: 200px; width: 100%; position: relative; padding: 5px;">
+                                                <div style="float: right; width: 39%; text-align: right; font: 12px Tahoma; padding-right: 5px;">
+                                                    <br>
+                                                    <span style="font-weight: bold;">نام و نام خانوادگی:</span><br>
+                                                    <span id="edflname">فرطوس اسمعيل وندي ليري</span>
+                                                    <br>
+                                                    <span style="font-weight: bold">رشته:</span><br>
+                                                    <span id="edMajor">فيزيك گرايش فيزيک آماري و سامانه هاي پيچيده</span>
+                                                    <br>
+                                                    <span style="font-weight: bold">سال ورود:</span><br>
+                                                    <span id="edIntrant">۱۴۰۱۱</span>
+                                                    <br>
+                                                </div>
+                                                <div style="width: 58%; float: left; padding: 0px 0px 0px 0px;">
+                                                    <img src="./sesssec_files/sess_0_427064_0_0.jpg" id="edPhoto" class="UserImage" alt="عکس کاربر ">
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                                    <tr>
+                                        <td align="center">
+                                            <div id="edCalend">
+                                            <table onmouseout="DateOut(event)" width="100%" class="ptext" cellpadding="2" onclick="DateClick(event)" style="background-color:#faf9f9;border:solid 5px #6ab1ed;border-radius:5px;" cellspacing="2" dir="ltr" onmouseover="DateOver(event)">
+	<tbody><tr>
+		<td><img src="./sesssec_files/prev.gif" onclick="DateMove(&#39;CalendarPrev&#39;)" title="ماه قبل"></td>
+		<td colspan="5" align="center" style="background-color:#62615f;border-radius:5px;font:bold 11px Tahoma;color:white;">فروردين 1404</td>
+		<td><img src="./sesssec_files/next.gif" onclick="DateMove(&#39;CalendarNext&#39;)" title="ماه بعد"></td>
+	</tr>
+	<tr class="boxbackcolor" style="background-color:#9f9b94;border-radius:5px;color:#4cb5f5;font:bold 11px Tahoma;" align="center">
+		<td>ش</td>
+		<td>ي</td>
+		<td>د</td>
+		<td>س</td>
+		<td>چ</td>
+		<td>پ</td>
+		<td>ج</td>
+	</tr>
+	<tr>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td style="cursor:pointer;background-color:#ccc9c2;border-radius:5px;text-align:center;color:red;" iddate="14040101">۱</td>
+		<td></td>
+	</tr>
+	<tr>
+		<td style="cursor:pointer;background-color:#ccc9c2;border-radius:5px;text-align:center;color:red;" iddate="14040102" title="تعطيل رسمي
+شهادت حضرت علي (ع)">۲</td>
+		<td style="cursor:pointer;background-color:#ccc9c2;border-radius:5px;text-align:center;color:red;" iddate="14040103" title="تعطيل رسمي
+عيد نوروز">۳</td>
+		<td style="cursor:pointer;background-color:#ccc9c2;border-radius:5px;text-align:center;color:red;" iddate="14040104" title="تعطيل رسمي
+عيد نوروز">۴</td>
+		<td style="cursor:pointer;background-color:#ccc9c2;border-radius:5px;text-align:center;color:red;" iddate="14040105" title="تعطيل رسمي
+عيد نوروز">۵</td>
+		<td style="cursor:pointer;background-color:#ccc9c2;border-radius:5px;text-align:center;color:red;" iddate="14040106" title="تعطيل رسمي
+عيد نوروز">۶</td>
+		<td style="cursor:pointer;background-color:#ccc9c2;border-radius:5px;text-align:center;color:red;" iddate="14040107" title="تعطيل رسمي
+عيد نوروز">۷</td>
+		<td style="cursor:pointer;background-color:#ccc9c2;border-radius:5px;text-align:center;color:red;" iddate="14040108">۸</td>
+		<td></td>
+	</tr>
+	<tr>
+		<td style="cursor:pointer;background-color:#ccc9c2;border-radius:5px;text-align:center;color:red;" iddate="14040109" title="تعطيل رسمي
+عيد نوروز">۹</td>
+		<td style="cursor:pointer;background-color:#ccc9c2;border-radius:5px;text-align:center;color:red;" iddate="14040110" title="تعطيل رسمي
+عيد نوروز">۱۰</td>
+		<td style="cursor:pointer;background-color:#ccc9c2;border-radius:5px;text-align:center;color:red;" iddate="14040111" title="تعطيل رسمي
+عيد سعيد فطر">۱۱</td>
+		<td style="cursor:pointer;background-color:#ccc9c2;border-radius:5px;text-align:center;color:red;" iddate="14040112" title="تعطيل رسمي
+عيد سعيد فطر- روز جمهوري اسلامي ايران">۱۲</td>
+		<td style="cursor:pointer;background-color:#ccc9c2;border-radius:5px;text-align:center;color:red;" iddate="14040113" title="تعطيل رسمي
+روز طبيعت">۱۳</td>
+		<td style="cursor:pointer;background-color:#ccc9c2;border-radius:5px;text-align:center;" iddate="14040114">۱۴</td>
+		<td style="cursor:pointer;background-color:#ccc9c2;border-radius:5px;text-align:center;color:red;" iddate="14040115">۱۵</td>
+		<td></td>
+	</tr>
+	<tr>
+		<td style="cursor:pointer;background-color:#ccc9c2;border-radius:5px;text-align:center;" iddate="14040116">۱۶</td>
+		<td style="cursor:pointer;background-color:#ccc9c2;border-radius:5px;text-align:center;" iddate="14040117" align="center">۱۷</td>
+		<td style="cursor:pointer;background-color:#ccc9c2;border-radius:5px;text-align:center;" iddate="14040118">۱۸</td>
+		<td style="cursor:pointer;background-color:#ccc9c2;border-radius:5px;text-align:center;" iddate="14040119">۱۹</td>
+		<td style="cursor:pointer;background-color:#ccc9c2;border-radius:5px;text-align:center;" iddate="14040120">۲۰</td>
+		<td style="cursor:pointer;background-color:#ccc9c2;border-radius:5px;text-align:center;" iddate="14040121">۲۱</td>
+		<td style="cursor:pointer;background-color:#ccc9c2;border-radius:5px;text-align:center;color:red;" iddate="14040122">۲۲</td>
+		<td></td>
+	</tr>
+	<tr>
+		<td style="cursor:pointer;background-color:#ccc9c2;border-radius:5px;text-align:center;" iddate="14040123">۲۳</td>
+		<td style="cursor:pointer;background-color:#ccc9c2;border-radius:5px;text-align:center;" iddate="14040124">۲۴</td>
+		<td style="cursor:pointer;background-color:#ccc9c2;border-radius:5px;text-align:center;" iddate="14040125">۲۵</td>
+		<td style="cursor:pointer;background-color:#ccc9c2;border-radius:5px;text-align:center;" iddate="14040126">۲۶</td>
+		<td style="cursor:pointer;background-color:#ccc9c2;border-radius:5px;text-align:center;" iddate="14040127">۲۷</td>
+		<td style="cursor:pointer;background-color:#ccc9c2;border-radius:5px;text-align:center;" iddate="14040128">۲۸</td>
+		<td style="cursor:pointer;background-color:#ccc9c2;border-radius:5px;text-align:center;color:red;" iddate="14040129">۲۹</td>
+		<td></td>
+	</tr>
+	<tr>
+		<td style="cursor:pointer;background-color:#ccc9c2;border-radius:5px;text-align:center;" iddate="14040130">۳۰</td>
+		<td style="cursor:pointer;background-color:#ccc9c2;border-radius:5px;text-align:center;" iddate="14040131">۳۱</td>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td></td>
+	</tr>
+	<tr>
+		<td colspan="7"><table class="ptext" style="background-color:#4cb5f5;border-radius:5px;" width="100%">
+			<tbody><tr>
+				<td align="center">امروز: يک شنبه ۱۷ فروردين ۱۴۰۴</td>
+			</tr>
+		</tbody></table>
+		</td>
+	</tr>
+	<tr>
+		<td colspan="7" align="center"><a href="https://sess.shirazu.ac.ir/sess/FSysAdmin/MemberNotes.aspx" class="link" style="font:bold 11px Tahoma;">همه يادداشت ها</a></td>
+	</tr>
+</tbody></table>
+</div>
+                                        </td>
+                                    </tr>
+                                </tbody></table>
+                            </td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input name="Channel" type="hidden" id="Channel">
+                    <input name="_Region" type="hidden" id="_Region">
+                    <input name="ExCrdConfirmation" type="hidden" id="ExCrdConfirmation">
+                    <input name="chStdInfo" type="hidden" id="chStdInfo">
+
+                </td>
+            </tr>
+        </tbody></table>
+    </form>
+    <script type="text/javascript">
+        getNews(1);
+
+
+        var stdInfo = document.getElementById("chStdInfo").value.split('$');
+        if (stdInfo.length > 1) {
+            !function () { function t() { var t = document.createElement("script"); t.type = "text/javascript", t.async = !0, localStorage.getItem("rayToken") ? t.src = "https://app.raychat.io/scripts/js/" + o + "?rid=" + localStorage.getItem("rayToken") + "&href=" + window.location.href : t.src = "https://app.raychat.io/scripts/js/" + o; var e = document.getElementsByTagName("script")[0]; e.parentNode.insertBefore(t, e) } var e = document, a = window, o = stdInfo[4]; "complete" == e.readyState ? t() : a.attachEvent ? a.attachEvent("onload", t) : a.addEventListener("load", t, !1) }();
+
+            window.addEventListener('raychat_ready', function (ets) {
+                window.Raychat.setUser({
+                    email: stdInfo[0],
+                    name: stdInfo[1],
+                    about: stdInfo[2],
+                    phone: stdInfo[3],
+                    avatar: '',
+                    updateOnce: true
+                });
+            });
+        }
+
+    </script>
+
+
+</body></html>

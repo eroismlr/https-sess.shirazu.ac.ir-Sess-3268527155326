@@ -1,0 +1,801 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0045)https://sess.shirazu.ac.ir/Sess/3211508615008 -->
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>امور خوابگاه دانشجو</title>
+    <meta content="Microsoft Visual Studio .NET 7.1" name="GENERATOR">
+    <meta content="C#" name="CODE_LANGUAGE">
+    <meta content="JavaScript" name="vs_defaultClientScript">
+    <meta content="http://schemas.microsoft.com/intellisense/ie5" name="vs_targetSchema">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="./sec3_files/styles.css" type="text/css" rel="stylesheet">
+    <link rel="shortcut icon" href="https://sess.shirazu.ac.ir/sess/LocalImage/favicon.ico">
+    <script src="./sec3_files/Gnr.js.download" type="text/javascript"></script>
+    
+    <script type="text/javascript">
+
+        function ClickReq(e) {
+            var Ident = GetSrcPar(e).getAttribute('Ident', false);
+            if (Ident == null)
+                return;
+            Perform('EditReq;Ident=' + Ident);
+        }
+        var DlgIdent = '';
+        var ModalCase = '';
+        window.returnBack = function (s) {
+            if (s)
+                DlgPerform(s);
+            DlgIdent = '';
+            ModalCase = '';
+        }
+        function DlgPerform(s) {
+           
+            switch (ModalCase) {
+                case 'StdCredit':
+                    if (!DlgIdent)
+                        Perform('NewCredit;Ident=' + s);
+                    else {
+                        if (s == 'Delete') {
+                            Perform('DeleteCredit;Ident=' + DlgIdent);
+                        }
+                        else
+                            Perform('EditCredit;Ident=' + s);
+                } break;
+                //case "GnrDlgPayRent":
+                //    Perform('PayRent;Amt=' + s); break;
+                case "RoomerReqEdit":
+                    Perform('EditReq;Ident='+DlgIdent+";Data=" + s); break;
+            }
+        }
+        //-------------------
+        function NewCredit() {
+            DlgIdent = '';
+            ModalCase = 'StdCredit';
+            var newDlgIdent = document.getElementById('chNewIdent').value;
+            var s = showModalDialog("/sess/HtmlPage/StdCredit.htm", "new&" + newDlgIdent, "status:0;help:0;dialogWidth:600px;dialogHeight:200px");
+            if (s)
+                DlgPerform(s);
+        }
+        function ClickCredit(e) {
+            var Source = GetSrcPar(e);
+            DlgIdent = Source.getAttribute('Ident', false);
+            if (DlgIdent == null)
+                return;
+            ModalCase = 'StdCredit';
+            var s = showModalDialog("/sess/HtmlPage/StdCredit.htm", 'edit&' + DlgIdent, "status:0;help:0;dialogWidth:600px;dialogHeight:200px");
+            if (s)
+                DlgPerform(s);
+        }
+
+        function ClickCredit(e) {
+            var Source = GetSrcPar(e);
+            DlgIdent = Source.getAttribute('Ident', false);
+            if (DlgIdent == null)
+                return;
+            ModalCase = 'StdCredit';
+            var s = showModalDialog("/sess/HtmlPage/StdCredit.htm", 'edit&' + DlgIdent, "status:0;help:0;dialogWidth:600px;dialogHeight:200px");
+            if (s)
+                DlgPerform(s);
+        }
+        function RoomerCard(ident) {
+            if (ident != undefined) {
+                ident = ident.split(':');
+
+                if (ident[0] == null)
+                    return;
+
+                Perform('RoomerCard;Semester=' + ident);
+            }
+        }
+
+        function Room(ident) {
+            if (ident != undefined) {
+                ident = ident.split(':');
+
+                if (ident[0] == null)
+                    return;
+
+                Perform('Room;Semester=' + ident);
+            }
+        }
+        function ClickRoomerReq(e) {
+        var Source = GetSrcPar(e);
+        var Ident = Source.getAttribute('Ident', 0);
+            var Ident = Source.getAttribute('Ident', 0);
+            if (Ident == null)
+                return;
+            var Amt = Source.getAttribute('Amt', 0);
+            var EnterD = Source.getAttribute('EnterD', 0);
+            var ExitD = Source.getAttribute('ExitD', 0);
+            var SaleCode = Source.getAttribute('SaleCode', 0);
+            var Damage1 = Source.getAttribute('Damage1', 0);
+            var Param = new Array();
+            Param[0] = "تغییر پارامترهای درخواست خوابگاه:";
+            Param[1] = 5;
+            Param[2] = "input;true;مبلغ اجاره;" + Amt + ";20;LF";
+            Param[3] = "input;true;تاریخ ورود ;" + EnterD + ";10;D";
+            Param[4] = "input;true;تاریخ خروج;" + ExitD + ";10;D";
+            Param[5] = "input;true;شماره فیش;" + SaleCode + ";10;LF";
+            Param[6] = "input;true;مبلغ خسارت;" + Damage1 + ";20;LF";
+            ModalCase = 'RoomerReqEdit';
+
+            DlgIdent = Ident;
+            var s = showModalDialog("/sess/HtmlPage/GnrDialog.htm", Param, "status:no;dialogWidth:450px;dialogHeight:50px");
+            if (s)
+                DlgPerform(s);
+        }
+
+        function PayRent(ident) {
+            
+            if (ident != undefined) {
+
+                Perform('PayRent;Ident=' + ident);
+            }
+        }
+
+        function PayBadAmt(ident) {
+            if (ident != undefined) {
+
+                Perform('PayBadAmt;Ident=' + ident);
+            }
+        }
+
+        function ConfirmDprList(ident) {
+            if (ident != undefined) {
+                Perform('ConfirmDprList;Semester=' + ident);
+            }
+        }
+
+        function DormStdRoomers(ident) {
+            if (ident != undefined) {
+                ident = ident.split(':');
+
+                if (ident[0] == null)
+                    return;
+
+                Perform('DormStdRoomers;Semester=' + ident);
+            }
+        }
+    </script>
+    <link href="./sec3_files/stylesheet3.css" type="text/css" rel="stylesheet">
+</head>
+<body>
+    <form method="post" action="https://sess.shirazu.ac.ir/Sess/3211508615008" id="Form1">
+<div class="aspNetHidden">
+<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="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">
+</div>
+
+<div class="aspNetHidden">
+
+	<input type="hidden" name="__VIEWSTATEGENERATOR" id="__VIEWSTATEGENERATOR" value="36A29027">
+	<input type="hidden" name="__EVENTVALIDATION" id="__EVENTVALIDATION" value="/wEdAA0NyIDuqP9gqs+lIUYQ3gk36/R1CdSTRgr1D4vCUegGUZTtp2zTwg6l+VflQkXiEdEYG6w5gpxVnp5ijdSMjSt4VXlMsGq8cQjF5KuUGOwTiOGy8fe2+fPwntuQS8UpxaDTeLlmfqIYNPLS1AmCm3iNkmHxbSu01+5F5ytpfXEKoEW8rpyf9DI0qQA8ZkUSx//N+DvxnwFeFeJ9MIBWR693tqaGjG39pr5USSdMtEp48UtX/Gjjljxs0lVmmOyjR4D59jh23WMncJzqKxfLgaSxGFY6rcCLEWAGdKO6wafCMd/f3JUBgHAX/T7MBOVpxbI=">
+</div>
+        <table class="border" id="maintbl" dir="rtl" cellspacing="2" cellpadding="2" align="center">
+            <tbody><tr>
+                <td>
+                    
+
+<script type="text/javascript">
+    function BannerAct(pAct)
+    {
+        document.getElementById("Banner1_zzChanel").value = pAct;
+        if (pAct == "Exit") {
+            var Ch = document.getElementById("Channel");
+            if (Ch)
+                Ch.value = "";
+        }
+        document.forms[0].submit();
+    }
+    //function ShortKeyBan(e) {
+    //    var a = KeyLatin(GetKeyCode(e));
+    //    alert(a);
+    //    document.getElementById("Banner1_zzChanel").value = a  ;
+    //        document.forms[0].submit();
+        
+    //}
+</script>
+
+    <table class="ptext" dir="rtl" cellspacing="0" cellpadding="0" width="100%" align="center">
+        <tbody><tr>
+            <td style="height: 109px; width: 100%; height: auto">
+                <table style="width: 100%;" cellpadding="0" cellspacing="0">
+                    <tbody><tr style="background-image: url(&#39;./sessfirst_files/bg.jpg&#39;); background-repeat: repeat">
+                        <td align="right">
+                            <img src="./sec3_files/Right.jpg" id="Banner1_IMG1" usemap="home.aspx">
+                        </td>
+                        <td align="left">
+                            <img src="./sec3_files/Left.jpg" id="Banner1_IMG2" usemap="home.aspx">
+                        </td>
+                    </tr>
+                </tbody></table>
+            </td>
+        </tr>
+        <tr style="background-image: url(&#39;./sessfirst_files/BanLine.jpg&#39;); background-repeat: repeat-x">
+            <td valign="top">
+                <table class="ptext" style="width: 100%">
+                    <tbody><tr>
+                        <td id="Banner1_zzUserType" align="right" width="30%">فرطوس اسمعيل وندي ليري  *فيزيک آماري و سامانه هاي پيچيده*</td>
+
+                        
+                        <td align="right" width="30%">
+                            <div id="Banner1_zzHostAddr" style="padding: 2px 2px 2px 2px; display: inline; margin: 1px; color: blue; background-color: transparent; text-align: center">اتصال از طريق:اينترنت</div>
+                        </td>
+                       
+                        <td width="50%">
+    <a class="Power" title="خروج" href="/sess/Script/Logout.aspx" style="display:inline-block; width:24px; height:24px; background-image:url('./sessfirst_files/g/Power.png'); background-repeat:no-repeat;"></a>
+    <a class="Home" title="صفحه اصلي" href="/sess/Script/Home.aspx" style="display:inline-block; width:24px; height:24px; background-image:url('./sessfirst_files/g/Home.png'); background-repeat:no-repeat;"></a>
+    <a class="Back" id="edRet" title="بازگشت" onclick="try{BannerAct('Exit');}catch(e){}" style="display:inline-block; width:24px; height:24px; background-image:url('./sessfirst_files/g/Back.png'); background-repeat:no-repeat;"></a>
+    <a class="Tick" id="edOk" title="تاييد" onclick="try{Save();}catch(e){}" style="display:inline-block; width:24px; height:24px; background-image:url('./sessfirst_files/g/Tick.png'); background-repeat:no-repeat;"></a>
+    <a class="Help" id="edHelp" title="راهنما" target="_blank" href="/sess/Script/Help.aspx" style="display:inline-block; width:24px; height:24px; background-image:url('./sessfirst_files/g/Help.png'); background-repeat:no-repeat;"></a>
+    
+    <a href="/sess/FAccount/FMsgInbox.aspx" id="Banner1_edMsg" class="Msg" title="پیام ها" style="display:inline-block; position:relative; width:24px; height:24px; background-image:url('./sessfirst_files/g/Msg.png'); background-repeat:no-repeat;">
+    <div id="Banner1_MsgIcon" class="MsgIcon" style="position:relative; display:inline-block;">
+        
+    </div></a>
+    
+    <div id="Banner1_xToDayx" style="color: navy;float:left;width:80px;border-left:1px solid #dfe6e6;height:20px"><b>۱۴۰۴/۰۱/۱۷</b></div>
+</td>
+                         
+                    </tr>
+                    <tr>
+                        <td>
+                            <input name="Banner1:zzChanel" type="hidden" id="Banner1_zzChanel"></td>
+                    </tr>
+                </tbody></table>
+            </td>
+        </tr>
+       
+
+    </tbody></table>
+
+
+                </td>
+            </tr>
+            <tr>
+                <td align="center">
+                    <div class="title_of_page" style="text-align: center; margin-bottom: 5px;">امور خوابگاه دانشجو</div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <table align="center" class="BgBlueTb" style="box-shadow: 0 3px 3px 0 rgba(0,0,0,0.24),0 3px 3px 0 rgba(0,0,0,0.19); line-height: 20px; width: 100%; margin-bottom: 5px;">
+                        <tbody><tr class="ptext" align="right" style="text-align: right; font: bold 12px Tahoma; padding-bottom: 10px;">
+                            <td colspan="8" style="padding-bottom: 5px;">مشخصات دانشجو :</td>
+                        </tr>
+                        <tr>
+                            <td style="width: 7%;" class="btext">نام
+                            </td>
+                            <td>:
+                            </td>
+                            <td style="width: 15%;">
+                                <div id="edFName">فرطوس</div>
+                            </td>
+                            <td style="width: 5%;" class="btext">دانشکده
+                            </td>
+                            <td>:
+                            </td>
+                            <td>
+                                <div id="edCollege" dir="rtl">دانشکده علوم</div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="btext">نام خانوادگي
+                            </td>
+                            <td>:
+                            </td>
+                            <td>
+                                <div id="edLName">اسمعيل وندي ليري</div>
+                            </td>
+                            <td class="btext">رشته
+                            </td>
+                            <td>:
+                            </td>
+                            <td>
+                                <div id="edMajor" dir="rtl">فيزيك-فيزيک آماري و سامانه هاي پيچيده</div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="btext">شماره دانشجويي
+                            </td>
+                            <td>:
+                            </td>
+                            <td>
+                                <div id="edStdNumber">40131462</div>
+                            </td>
+                            <td class="btext">مقطع
+                            </td>
+                            <td>:
+                            </td>
+                            <td>
+                                <div id="edLevel" dir="rtl">کارشناسي ارشد ناپيوسته</div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="btext">وضعیت
+                            </td>
+                            <td>:
+                            </td>
+                            <td>
+                                <div id="edState" dir="rtl">دانشجو</div>
+                            </td>
+                            <td class="btext">نوع پذيرش
+                            </td>
+                            <td>:
+                            </td>
+                            <td>
+                                <div id="edAccept" dir="rtl">نوبت اول </div>
+                            </td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+            <tr>
+                <td align="center">
+                    <div style="font: bold 14px Tahoma; margin-top: 20px;">لیست خوابگاه ها</div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <table id="edList" align="center" width="100%" class="mGrid" onmouseout="OutRow(event)" onmouseover="OverRow(event)">
+	<tbody><tr>
+		<th>رديف
+                            </th>
+		<th>نیمسال
+                            </th>
+		<th>خوابگاه
+                            </th>
+		<th>اتاق
+                            </th>
+		<th>ضريب اجاره بها
+                            </th>
+		<th>وضعیت ورود
+                            </th>
+		<th>وضعیت خروج
+                            </th>
+		<th>تاريخ ورود
+                            </th>
+		<th>تاريخ خروج
+                            </th>
+		<th>مدت اقامت
+                            </th>
+		<th>مبلغ اجاره
+                            </th>
+		<th>کارت تردد</th>
+		<th id="lblDprTitle">سيماد</th>
+		<th>جزئیات
+                            </th>
+		<th>مبلغ تخفیف
+                            </th>
+		<th>مبلغ خسارت
+                            </th>
+		<th>مبلغ جریمه
+                            </th>
+		<th>پرداختی
+                            </th>
+		<th>توضیحات
+                            </th>
+	</tr>
+	<tr class="listOdd" ident="14011" style="cursor: pointer;">
+		<td>۱</td>
+		<td>اول - ۱۴۰۱</td>
+		<td>شهيد مفتح(ره) بلوک D</td>
+		<td>۶۰۸-راست </td>
+		<td>۱۰۰</td>
+		<td>عادی</td>
+		<td>عادی</td>
+		<td></td>
+		<td></td>
+		<td>یک نیمسال</td>
+		<td> </td>
+		<td class="link2" onclick="RoomerCard(&#39;14011&#39;)">کارت تردد</td>
+		<td class="link2" onclick="ConfirmDprList(&#39;14011&#39;)">تایید</td>
+		<td><input name="_ctl82" type="button" class="box" value="مشاهده" onclick="DormStdRoomers(&#39;14011&#39;)"></td>
+		<td>۰</td>
+		<td>۰</td>
+		<td>۰</td>
+		<td>۰</td>
+		<td>پرداخت در صندوق رفاه</td>
+	</tr>
+	<tr class="listEven" ident="14012" style="cursor: pointer;">
+		<td>۲</td>
+		<td>دوم - ۱۴۰۱</td>
+		<td>شهيد مفتح(ره) بلوک D</td>
+		<td>۶۰۶-راست </td>
+		<td>۱۰۰</td>
+		<td>عادی</td>
+		<td>عادی</td>
+		<td></td>
+		<td></td>
+		<td>یک نیمسال</td>
+		<td> </td>
+		<td class="link2" onclick="RoomerCard(&#39;14012&#39;)">کارت تردد</td>
+		<td class="link2" onclick="ConfirmDprList(&#39;14012&#39;)">تایید</td>
+		<td><input name="_ctl103" type="button" class="box" value="مشاهده" onclick="DormStdRoomers(&#39;14012&#39;)"></td>
+		<td>۰</td>
+		<td>۲۰۰,۰۰۰</td>
+		<td>۰</td>
+		<td>۰</td>
+		<td>پرداخت در صندوق رفاه</td>
+	</tr>
+	<tr class="listOdd" ident="14020" style="cursor: pointer;">
+		<td>۳</td>
+		<td>تابستان - ۱۴۰۲</td>
+		<td>شهيد دستغيب (ره )</td>
+		<td>۲۰۲-راست </td>
+		<td>۱۰۰</td>
+		<td>عادی</td>
+		<td>عادی</td>
+		<td></td>
+		<td></td>
+		<td>یک نیمسال</td>
+		<td>۳,۶۰۰,۰۰۰</td>
+		<td class="link2" onclick="RoomerCard(&#39;14020&#39;)">کارت تردد</td>
+		<td class="link2" onclick="ConfirmDprList(&#39;14020&#39;)">تایید</td>
+		<td><input name="_ctl124" type="button" class="box" value="مشاهده" onclick="DormStdRoomers(&#39;14020&#39;)"></td>
+		<td>۰</td>
+		<td>۰</td>
+		<td>۰</td>
+		<td>۰</td>
+		<td></td>
+	</tr>
+	<tr class="listEven" ident="14021" style="cursor: pointer;">
+		<td>۴</td>
+		<td>اول - ۱۴۰۲</td>
+		<td>شهيد مفتح(ره) بلوکAB</td>
+		<td>۱۲۳۶</td>
+		<td>۱۰۰</td>
+		<td>عادی</td>
+		<td>عادی</td>
+		<td></td>
+		<td></td>
+		<td>یک نیمسال</td>
+		<td>۷,۱۹۹,۹۵۵</td>
+		<td class="link2" onclick="RoomerCard(&#39;14021&#39;)">کارت تردد</td>
+		<td class="link2" onclick="ConfirmDprList(&#39;14021&#39;)">تایید</td>
+		<td><input name="_ctl145" type="button" class="box" value="مشاهده" onclick="DormStdRoomers(&#39;14021&#39;)"></td>
+		<td>۰</td>
+		<td>۰</td>
+		<td>۰</td>
+		<td>۰</td>
+		<td></td>
+	</tr>
+	<tr class="listOdd" ident="14022" style="cursor: pointer;">
+		<td>۵</td>
+		<td>دوم - ۱۴۰۲</td>
+		<td>شهيد مفتح(ره) بلوکAB</td>
+		<td>۱۲۳۶</td>
+		<td>۱۰۰</td>
+		<td>عادی</td>
+		<td>عادی</td>
+		<td>۱۴۰۲/۱۱/۱۶</td>
+		<td></td>
+		<td>یک نیمسال</td>
+		<td> </td>
+		<td class="link2" onclick="RoomerCard(&#39;14022&#39;)">کارت تردد</td>
+		<td class="link2" onclick="ConfirmDprList(&#39;14022&#39;)">تایید</td>
+		<td><input name="_ctl166" type="button" class="box" value="مشاهده" onclick="DormStdRoomers(&#39;14022&#39;)"></td>
+		<td>۰</td>
+		<td>۲,۲۳۰,۰۰۰</td>
+		<td>۰</td>
+		<td>۰</td>
+		<td>پرداخت در صندوق رفاه</td>
+	</tr>
+	<tr class="listEven" ident="14031" style="cursor: pointer;">
+		<td>۶</td>
+		<td>اول - ۱۴۰۳</td>
+		<td>شهيد مفتح(ره) بلوکAB</td>
+		<td>۱۱۵۰</td>
+		<td>۱۰۰</td>
+		<td>عادی</td>
+		<td>عادی</td>
+		<td></td>
+		<td></td>
+		<td>یک نیمسال</td>
+		<td>۱۷,۹۹۹,۹۵۵</td>
+		<td class="link2" onclick="RoomerCard(&#39;14031&#39;)">کارت تردد</td>
+		<td class="link2" onclick="ConfirmDprList(&#39;14031&#39;)">تایید</td>
+		<td><input name="_ctl187" type="button" class="box" value="مشاهده" onclick="DormStdRoomers(&#39;14031&#39;)"></td>
+		<td>۰</td>
+		<td>۰</td>
+		<td>۰</td>
+		<td>۰</td>
+		<td></td>
+	</tr>
+	<tr class="listOdd" ident="14032" style="cursor: pointer;">
+		<td>۷</td>
+		<td>دوم - ۱۴۰۳</td>
+		<td>شهيد مفتح(ره) بلوکAB</td>
+		<td>۱۱۵۰</td>
+		<td>۱۰۰</td>
+		<td>عادی</td>
+		<td>عادی</td>
+		<td>۱۴۰۳/۱۱/۱۶</td>
+		<td></td>
+		<td>یک نیمسال</td>
+		<td>۱۷,۹۹۹,۹۵۵</td>
+		<td class="link2" onclick="RoomerCard(&#39;14032&#39;)">کارت تردد</td>
+		<td class="link2" onclick="ConfirmDprList(&#39;14032&#39;)">تایید</td>
+		<td><input name="_ctl208" type="button" class="box" value="مشاهده" onclick="window.location.href='sec4.html';"></td>
+		<td>۰</td>
+		<td>۰</td>
+		<td>۰</td>
+		<td>۰</td>
+		<td></td>
+	</tr>
+</tbody></table>
+
+                </td>
+            </tr>
+            <tr>
+                <td align="center">
+                    <div style="font: bold 12px Tahoma; margin-top: 20px;">لیست همه درخواست های دانشجو</div>
+                    <input name="Button1" type="button" id="Button1" class="box11" onclick="Perform(&#39;FailPublic&#39;)" value="اعلام خرابی اموال عمومی خوابگاه" style="float: left; margin-top: 20px;">
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3">
+                    <table id="edListReq" cellpadding="1" cellspacing="1" width="100%" class="mGrid" onmouseout="OutRow(event)" onmouseover="OverRow(event)" onclick="ClickRoomerReq(event)">
+	<tbody><tr>
+		<th>رديف
+                            </th>
+		<th>نیمسال
+                            </th>
+		<th>خوابگاه
+                            </th>
+		<th>اتاق
+                            </th>
+		<th>تاریخ ورود</th>
+		<th>مبلغ اجاره</th>
+		<th>تاریخ درخواست
+                            </th>
+		<th>نوع درخواست
+                            </th>
+		<th>توضیحات
+                            </th>
+		<th>تاریخ اقدام
+                            </th>
+		<th>اقدام کننده
+                            </th>
+		<th>وضعیت
+                            </th>
+		<th>تخفیف
+                            </th>
+		<th>خسارت
+                            </th>
+		<th>مبلغ خسارت
+                            </th>
+		<th>مبلغ پرداختی
+                            </th>
+	</tr>
+</tbody></table>
+
+                </td>
+            </tr>
+            <tr>
+                <td align="center">
+                    <div style="font: bold 12px Tahoma; margin-top: 20px;">رسيدهاي بانكي</div>
+                    <input name="edNewCredit" type="button" id="edNewCredit" class="box11" onclick="NewCredit()" value="  جديد  " style="float: left; margin-top: 20px;">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <table id="edListCredit" class="mGrid" onmouseover="OverRow(event)" onmouseout="OutRow(event)" width="100%" onclick="ClickCredit(event)">
+	<tbody><tr>
+		<th>نیمسال
+                            </th>
+		<th>تاريخ
+                            </th>
+		<th>شماره رسيد
+                            </th>
+		<th>بانك
+                            </th>
+		<th>مبلغ به عدد
+                            </th>
+		<th>مبلغ به حروف
+                            </th>
+		<th>مورد
+                            </th>
+		<th>نحوه پرداخت
+                            </th>
+		<th>وضعیت
+                            </th>
+		<th>توضیحات
+                            </th>
+	</tr>
+</tbody></table>
+
+                </td>
+            </tr>
+            <tr>
+                <td align="center">
+                    <div style="font: bold 12px Tahoma; margin-top: 20px;">لیست بدهی های موضوعی </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label id="lblPrompt" style="color: red; font-size: 14px; font-weight: bold"></label>
+                    <table id="edStdDebitList" class="mGrid" cellpadding="1" cellspacing="1" width="95%" align="center">
+	<tbody><tr>
+		<th>ردیف</th>
+		<th>تاریخ
+                                </th>
+		<th>نیمسال
+                                </th>
+		<th nowrap="nowrap">موضوع 
+                                </th>
+		<th>مبلغ
+                                </th>
+		<th>بانک
+                                </th>
+		<th>وضعیت
+                                </th>
+		<th>شناسه خرید
+                                </th>
+		<th>توضیحات
+                                </th>
+		<th>منابع
+                                </th>
+		<th>کارشناس</th>
+		<th>عملیات</th>
+	</tr>
+</tbody></table>
+
+                </td>
+            </tr>
+
+            <tr>
+                <td align="center">
+                    <div style="font: bold 12px Tahoma; margin-top: 20px;">لیست استردادها </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label id="edListRefund" style="color: red; font-size: 14px; font-weight: bold"></label>
+                    <table id="edRefundList" class="mGrid" cellpadding="1" cellspacing="1" width="95%" align="center">
+	<tbody><tr>
+		<th>ردیف</th>
+		<th>تاریخ
+                                </th>
+		<th nowrap="nowrap">موضوع 
+                                </th>
+		<th>مبلغ
+                                </th>
+		<th>وضعیت
+                                </th>
+		<th>توضیحات
+                                </th>
+	</tr>
+</tbody></table>
+
+                </td>
+            </tr>
+            
+            <tr>
+                <td align="center">
+                    <table class="EditorPage" align="center" style="margin-top: 20px;">
+                        <tbody><tr style="color: black;">
+                            <td>اجاره
+                            </td>
+                            <td>:
+                            </td>
+                            <td id="edSumRent">چهل و شش ميليون  و هفتصد و نود و نه هزار  و هشتصد و شصت و پنج ريال </td>
+
+                            <td id="edSumRentTxt"></td>
+
+                        </tr>
+                        <tr style="color: black;">
+                            <td>خسارت
+                            </td>
+                            <td>:
+                            </td>
+                            <td id="edSumBadAmt">۲,۴۳۰,۰۰۰</td>
+
+                            <td id="edSumBadAmtTxt">دو ميليون  و چهارصد و سي هزار  ريال </td>
+
+                        </tr>
+                        <tr style="color: black;">
+                            <td>جریمه
+                            </td>
+                            <td>:
+                            </td>
+                            <td id="edSumPnaltyAmt">۰</td>
+
+                            <td id="edSumPnaltyAmtTxt">صفر  ريال </td>
+
+                        </tr>
+                        <tr style="color: black;">
+                            <td>تخفیف
+                            </td>
+                            <td>:
+                            </td>
+                            <td id="edSumDiscount">۰</td>
+
+                            <td id="edSumDiscountTxt">صفر  ريال </td>
+
+                        </tr>
+                        <tr style="color: black;">
+                            <td>بدهی خوابگاه
+                            </td>
+                            <td>:
+                            </td>
+                            <td id="edRoomDebit">۰</td>
+
+                            <td id="edRoomDebitTxt">صفر  ريال </td>
+
+                        </tr>
+                        <tr style="color: black;">
+                            <td>ودیعه
+                            </td>
+                            <td>:
+                            </td>
+                            <td id="edDeposit">۰</td>
+
+                            <td id="edDepositTxt">صفر  ريال </td>
+
+                        </tr>
+                        <tr>
+                            <td id="edRoomDebitInfo" colspan="4" class="TdBold"></td>
+
+                        </tr>
+                        <tr style="color: black;">
+                            <td>بدهی موضوعی خوابگاه
+                            </td>
+                            <td>:
+                            </td>
+                            <td id="edSumStdDebit">۰</td>
+
+                            <td id="edSumStdDebitTxt">صفر  ريال </td>
+
+                        </tr>
+
+                        <tr style="color: green;">
+                            <td>استرداد وجه خوابگاه
+                            </td>
+                            <td>:
+                            </td>
+                            <td id="edSumRefund">۰</td>
+
+                            <td id="edSumRefundTxt">صفر  ريال </td>
+
+                        </tr>
+                        <tr class="OrangeText">
+                            <td>جمع بدهی
+                            </td>
+                            <td>:
+                            </td>
+                            <td id="edSumDebit">۴۹,۲۲۹,۸۶۵</td>
+
+                            <td id="edSumDebitTxt">چهل و نه ميليون  و دويست و بيست و نه هزار  و هشتصد و شصت و پنج ريال </td>
+
+                        </tr>
+                        <tr class="Greentext">
+                            <td>جمع پرداخت
+                            </td>
+                            <td>:
+                            </td>
+                            <td id="edSumCredit">۰</td>
+
+                            <td id="edSumCreditTxt">صفر  ريال </td>
+
+                        </tr>
+                        <tr>
+                            <td id="edAlertPay" colspan="4" class="TdBold">دانشجو مبلغ ۴۹,۲۲۹,۸۶۵ (چهل و نه ميليون  و دويست و بيست و نه هزار  و هشتصد و شصت و پنج ريال ) بدهکار است</td>
+
+                        </tr>
+                        <tr>
+                            <td id="edDprFormWarning" colspan="4" class="Warning"></td>
+
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input name="Channel" type="hidden" id="Channel" value="Act=DormStdRoomers;Semester=14032;">
+                    <input name="chNewIdent" type="hidden" id="chNewIdent" value="0^0:0:0^0^00000000^0^none^0^0^^0^14032">
+                </td>
+            </tr>
+        </tbody></table>
+    </form>
+
+
+</body></html>
